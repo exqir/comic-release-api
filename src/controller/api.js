@@ -6,7 +6,6 @@ exports.scrapAll = function(req, res) {
 
 exports.scrapImage = function(req, res) {
   console.log('Scrapping Image comics');
-  console.log(req);
   var response = scraper.image(req);
   return function(error, response) {
     handleResponse(error, response);

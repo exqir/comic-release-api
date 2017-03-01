@@ -3,6 +3,8 @@ var mongoose = require('mongoose')
 var api = require('./controller/api')
 var app = express()
 
+var port = process.env.PORT || 3000;
+
 //mongoose.connect('mongodb://localhost/UpComics', {user: '',pass: ''});
 function connectToDatabase(url, user, pass) {
   try {
@@ -19,15 +21,42 @@ app.all('*', function(req, res, next) {
     next();
  });
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+ var router = express.Router();
+ app.use('/api/v1', router);
+
+ router.get('/', function(req, res) {
+     res.json({ message: 'hooray! welcome to our api!' });
+ });
+
+ router.route('/scrap/image')
+ .get(function(req, res) {
+      Bear.find(function(err, bears) {
+          if (err)
+              res.send(err);
+
+          res.json(bears);
+      });
+  });
+ .post(function(req, res) {
+
+     var bear = new Bear();      // create a new instance of the Bear model
+     bear.name = req.body.name;  // set the bears name (comes from the request)
+
+     // save the bear and check for errors
+     bear.save(function(err) {
+         if (err)
+             res.send(err);
+
+         res.json({ message: 'Bear created!' });
+     });
+
+ });
 //Scrap
 app.get('/api/v1/scrap/all', api.scrapAll);
 app.get('/api/v1/scrap/image', api.scrapImage);
 //app.get('/api/v1/scrap/dc', api.scrap.dc);
 //app.get('/api/v1/scrap/idw', api.scrap.idw);
 
-app.listen(3000, function () {
+app.listen(port, function () {
   console.log('app listening on port 3000!')
 })
