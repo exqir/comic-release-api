@@ -1,10 +1,8 @@
 var express = require('express')
 var mongoose = require('mongoose')
-var api = require('./controller/api')
+var api = require('./controller/Middleware')
+var scraper = require('./controller/Scraper')
 var app = express()
-
-var cheerio = require('cheerio')
-var request = require('request')
 
 var port = process.env.PORT || 3000;
 
@@ -33,21 +31,7 @@ app.all('*', function(req, res, next) {
 
  router.route('/scrap/image')
   .get(function(req, res) {
-    request('https://imagecomics.com/comics/upcoming-releases/2017/2', function (error, response, html) {
-      if (!error && response.statusCode == 200) {
-       var $ = cheerio.load(html);
-       req.books = [];
-       $('.book--inline').each(function(i, element){
-         var book = {};
-         book.imageUrl = $(this).find('.book__img a img').attr('src');
-         book.title = $(this).find('.book__content .book__headline a').text();
-         req.books.push(book);
-         console.log('scrapped: ' + book.title);
-       });
-       console.log('Scrapping Image comics finished');
-       res.json(req.books);
-     }
-    })
+    scraper.scrap(req, res, scraper.image);
     //res.json(req.books);
   })
  .post(function(req, res) {

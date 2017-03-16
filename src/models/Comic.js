@@ -9,6 +9,7 @@ var comicSchema = new mongoose.Schema({
   serie: Schema.Types.ObjectId,
   publisher: Schema.Types.ObjectId,
   imageUrl: String,
+  imageColor: String,
   url: String
 });
 
