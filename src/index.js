@@ -6,7 +6,7 @@ var app = express()
 
 var port = process.env.PORT || 3000;
 
-//mongoose.connect('mongodb://localhost/UpComics', {user: '',pass: ''});
+mongoose.connect('mongodb://localhost/comic-app', {user: '',pass: ''});
 function connectToDatabase(url, user, pass) {
   try {
     mongoose.connect('mongodb://localhost/');
@@ -31,16 +31,13 @@ app.all('*', function(req, res, next) {
 
  router.route('/scrap/image')
   .get(function(req, res) {
-    scraper.scrap(req, res, scraper.image);
+    scraper.scrap(req, res, 'image');
     //res.json(req.books);
   })
  .post(function(req, res) {
  });
 //Scrap
 app.get('/api/v1/scrap/all', api.scrapAll);
-app.get('/api/v1/scrap/image', api.scrapImage);
-//app.get('/api/v1/scrap/dc', api.scrap.dc);
-//app.get('/api/v1/scrap/idw', api.scrap.idw);
 
 app.listen(port, function () {
   console.log('app listening on port 3000!')

@@ -4,14 +4,14 @@ var comicSchema = new mongoose.Schema({
   title: String,
   issue: String,
   release_date: Date,
-  author: Schema.Types.ObjectId,
-  artist: Schema.Types.ObjectId,
-  serie: Schema.Types.ObjectId,
-  publisher: Schema.Types.ObjectId,
+  author: mongoose.Schema.Types.ObjectId,
+  artist: mongoose.Schema.Types.ObjectId,
+  serie: mongoose.Schema.Types.ObjectId,
+  publisher: mongoose.Schema.Types.ObjectId,
   imageUrl: String,
   imageColor: String,
   url: String
-});
+}, {collection: 'comics'});
 
 var Comic = mongoose.model('Comic', comicSchema);
 
