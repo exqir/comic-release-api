@@ -3,6 +3,8 @@ var request = require('request')
 var Comic = require('../models/Comic').Comic
 var config = require('../config/publisher')
 
+var dateformat = require('dateformat')
+
 function image(req, res, html, next) {
   var $ = cheerio.load(html);
   var counter = $('.book--inline').length;
@@ -10,8 +12,14 @@ function image(req, res, html, next) {
   req.books = [];
   $('.book--inline').each(function(i, element){
     var book = {};
-    book.imageUrl = $(this).find('.book__img a img').attr('src');
-    book.title = $(this).find('.book__content .book__headline a').text();
+    book.imageUrl = $(element).find('.book__img a img').attr('src');
+    book.url = $(element).find('.book__img a').attr('href');
+    book.title = $(element).find('.book__content .book__headline a').text();
+    book.release_date =
+      dateformat(
+        $(element).find('.book__content .book__subHead').text(),
+        'isoDateTime'
+    );
     next(book, function (err) {
       if(err) return console.error(err);
       req.books.push(book);

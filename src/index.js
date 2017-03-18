@@ -1,12 +1,12 @@
 var express = require('express')
 var mongoose = require('mongoose')
-var api = require('./controller/Middleware')
+//var api = require('./controller/Middleware')
 var scraper = require('./controller/Scraper')
 var app = express()
 
 var port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://localhost/comic-app', {user: '',pass: ''});
+//mongoose.connect('mongodb://localhost/comic-app', {user: '',pass: ''});
 function connectToDatabase(url, user, pass) {
   try {
     mongoose.connect('mongodb://localhost/');
@@ -37,7 +37,7 @@ app.all('*', function(req, res, next) {
  .post(function(req, res) {
  });
 //Scrap
-app.get('/api/v1/scrap/all', api.scrapAll);
+//app.get('/api/v1/scrap/all', api.scrapAll);
 
 app.listen(port, function () {
   console.log('app listening on port 3000!')

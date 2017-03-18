@@ -3,7 +3,11 @@ var request = require('request')
 var Comic = require('../models/Comic').Comic
 var config = require('../config/publisher')
 
-var image = require('./ImageScraper')
+var image = require('./ImageScraper').image
+
+var publisherScraper = {
+  image: image
+}
 
 function scrap(req, res, publisher) {
   request(config[publisher].release_url, function(error, response, html) {
@@ -14,7 +18,7 @@ function scrap(req, res, publisher) {
 function handleRequest(req, res, html, publisher) {
   var $ = cheerio.load(html);
   req.books = [];
-  return image[publisher](req, res, html, saveComic)
+  return publisherScraper[publisher](req, res, html, saveComic)
 }
 
 function saveComic(comic, callback) {
