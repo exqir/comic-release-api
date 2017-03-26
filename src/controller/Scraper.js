@@ -47,12 +47,12 @@ function saveComic(comic, callback) {
 function handleError(error, response, req, res, html, publisher, next) {
   if(error) {
     console.error(new Date().toString() + ': ' + error);
-    res.statusCode = 500;
+    res.status(500);
     return res.json({errors: ['Could not reach publisher']});
   }
   if(!error && response.statusCode != 200) {
     console.error('status code' + response.statusCode);
-    res.statusCode = 500;
+    res.status(500);
     return res.json({errors: ['publisher responded with' + response.statusCode]});
   }
   return next(req, res, html, publisher);

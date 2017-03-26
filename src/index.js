@@ -40,5 +40,7 @@ app.all('*', function(req, res, next) {
 //app.get('/api/v1/scrap/all', api.scrapAll);
 
 app.listen(port, function () {
-  console.log('app listening on port 3000!')
+  console.log('comic-release-api started \n listening on ' + port)
 })
+
+module.exports = app

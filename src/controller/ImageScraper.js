@@ -1,14 +1,12 @@
 var cheerio = require('cheerio')
 var request = require('request')
 var Comic = require('../models/Comic').Comic
-var config = require('../config/publisher')
 
 var dateformat = require('dateformat')
 
 function image(req, res, html, next) {
   var $ = cheerio.load(html);
   var counter = $('.book--inline').length;
-  console.log(counter);
   req.books = [];
   $('.book--inline').each(function(i, element){
     var book = {};
@@ -23,12 +21,14 @@ function image(req, res, html, next) {
     next(book, function (err) {
       if(err) return console.error(err);
       req.books.push(book);
-      return --counter;
+      --counter;
+      return null;
     });
   });
   if(counter === 0) {
     console.log(new Date().toString() + ': scrapped Image comics');
-    res.json(req.books);
+    res.status(200);
+    res.json({comics: req.books});
   }
 }
 
