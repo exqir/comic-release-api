@@ -25,14 +25,9 @@ app.all('*', function(req, res, next) {
  var router = express.Router();
  app.use('/api/v1', router);
 
- router.get('/', function(req, res) {
-     res.json({ message: 'hooray! welcome to our api!' });
- });
-
- router.route('/scrap/image')
+ router.route('/scrap/:publisher')
   .get(function(req, res) {
-    scraper.scrap(req, res, 'image');
-    //res.json(req.books);
+    scraper.scrap(req, res);
   })
  .post(function(req, res) {
  });

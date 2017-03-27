@@ -4,10 +4,10 @@ var Comic = require('../models/Comic').Comic
 
 var dateformat = require('dateformat')
 
-function image(req, res, html, next) {
+function image(res, html, next) {
   var $ = cheerio.load(html);
   var counter = $('.book--inline').length;
-  req.books = [];
+  var books = [];
   $('.book--inline').each(function(i, element){
     var book = {};
     book.imageUrl = $(element).find('.book__img a img').attr('src');
@@ -20,15 +20,14 @@ function image(req, res, html, next) {
     );
     next(book, function (err) {
       if(err) return console.error(err);
-      req.books.push(book);
+      books.push(book);
       --counter;
-      return null;
     });
   });
   if(counter === 0) {
     console.log(new Date().toString() + ': scrapped Image comics');
     res.status(200);
-    res.json({comics: req.books});
+    res.json({comics: books});
   }
 }
 

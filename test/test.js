@@ -5,7 +5,7 @@ var app = require('../dist/index')
 
 describe('comic-release-api functional tests', function() {
   describe('scrap image comics', function() {
-    it('returns scrapped image comics as json', function() {
+    it('returns scrapped image comics as json', function(done) {
       var testComic =
       {
         imageUrl: "https://imagecomics.com/uploads/releases/_small/RatQueens_01_CVR_A.jpg",
@@ -17,11 +17,24 @@ describe('comic-release-api functional tests', function() {
       supertest(app)
         .get('/api/v1/scrap/image')
         .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) return done(err);
+          assert.deepEqual(res.body.comics[0], testComic);
+          done();
+        });
+    })
+  })
+  describe('call scrap with non-existing publisher', function() {
+    it('respond with 404er, publisher not found ', function(done) {
+      supertest(app)
+        .get('/api/v1/scrap/failure')
+        .expect(404)
         .end(function(err, res) {
           if (err) {
             return done(err);
           }
-          assert.equal(res.body.comics[0], testComic);
+          assert.deepEqual(res.body, {errors: ['publisher not found']});
           done();
         });
     })

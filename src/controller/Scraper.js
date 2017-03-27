@@ -9,16 +9,22 @@ var publisherScraper = {
   image: image
 }
 
-function scrap(req, res, publisher) {
-  request(config[publisher].release_url, function(error, response, html) {
-    handleError(error, response, req, res, html, publisher, handleRequest);
-  })
+function scrap(req, res) {
+  var publisher = config[req.params.publisher];
+  if(publisher !== undefined && publisher.release_url !== undefined) {
+    request(config[req.params.publisher].release_url, function(error, response, html) {
+      handleError(error, response, req, res, html, handleRequest);
+    })
+  } else {
+    res.status(404);
+    return res.json({errors: ['publisher not found']});
+  }
 }
 
-function handleRequest(req, res, html, publisher) {
+function handleRequest(req, res, html) {
   var $ = cheerio.load(html);
   req.books = [];
-  return publisherScraper[publisher](req, res, html, saveComic)
+  publisherScraper[req.params.publisher](res, html, saveComic)
 }
 
 function saveComic(comic, callback) {
@@ -41,10 +47,10 @@ function saveComic(comic, callback) {
   //   return callback(null);
   // });
   console.log(new Date().toString() + ': ' + comic.title);
-  return callback(null);
+  callback(null);
 }
 
-function handleError(error, response, req, res, html, publisher, next) {
+function handleError(error, response, req, res, html, next) {
   if(error) {
     console.error(new Date().toString() + ': ' + error);
     res.status(500);
@@ -55,7 +61,7 @@ function handleError(error, response, req, res, html, publisher, next) {
     res.status(500);
     return res.json({errors: ['publisher responded with' + response.statusCode]});
   }
-  return next(req, res, html, publisher);
+  next(req, res, html);
 }
 
 module.exports = {
