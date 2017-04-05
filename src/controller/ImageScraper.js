@@ -1,5 +1,6 @@
 var cheerio = require('cheerio')
 var request = require('request')
+var vibrant = require('node-vibrant')
 
 var dateformat = require('dateformat')
 
@@ -17,11 +18,25 @@ function image(res, html, next) {
         $(element).find('.book__content .book__subHead').text(),
         'isoDateTime'
     );
-    next(book, function (err) {
-      if(err) return console.error(err);
-      books.push(book);
-      --counter;
+    vibrant.from(book.imageUrl).getPalette(function (err, palette) {
+      function getSwatch(palette) {
+        for (var swatch in palette) {
+          if(palette.hasOwnProperty(swatch) && palette[swatch]) return palette[swatch];
+        }
+      }
+      var swatch = getSwatch(palette);
+      book.imageColor = swatch.getHex()
+      next(book, function (err) {
+        if(err) return console.error(err);
+        books.push(book);
+        --counter;
+      });
     });
+    // next(book, function (err) {
+    //   if(err) return console.error(err);
+    //   books.push(book);
+    //   --counter;
+    // });
   });
   if(counter === 0) {
     console.log(new Date().toString() + ': scrapped Image comics');
