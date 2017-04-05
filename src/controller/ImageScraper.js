@@ -1,6 +1,5 @@
 var cheerio = require('cheerio')
 var request = require('request')
-var Comic = require('../models/Comic').Comic
 
 var dateformat = require('dateformat')
 

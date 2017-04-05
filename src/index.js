@@ -25,7 +25,7 @@ app.all('*', function(req, res, next) {
  var router = express.Router();
  app.use('/api/v1', router);
 
- router.route('/scrap/:publisher')
+ router.route('/scrap/:publisher([a-z]+)')
   .get(function(req, res) {
     scraper.scrap(req, res);
   })
