@@ -1,7 +1,7 @@
 var assert = require('assert')
 var supertest = require('supertest')
 
-var app = require('../dist/index')
+var app = require('../lib/index')
 
 describe('comic-release-api functional tests', function() {
   describe('scrap image comics', function() {
