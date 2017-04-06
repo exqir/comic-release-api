@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "nodemon --watch dist dist/index.js",
+    "dev": "nodemon --watch lib lib/index.js",
     "test": "export MUTE_CLI_LOG=true; ./node_modules/.bin/mocha ./test/test.js"
   },
   "author": "Malte Sellmer",
