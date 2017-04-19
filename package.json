@@ -4,8 +4,8 @@
   "description": "this app helps you keeping track of your comic book subscriptions",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "nodemon --watch lib lib/index.js",
+    "start": "node index.js",
+    "dev": "nodemon --watch lib index.js",
     "test": "export MUTE_CLI_LOG=true; ./node_modules/.bin/mocha ./test/test.js"
   },
   "author": "Malte Sellmer",
@@ -16,23 +16,11 @@
     "express": "^4.14.1",
     "mongoose": "^4.8.5",
     "node-vibrant": "^3.0.0-alpha.2",
-    "request": "^2.79.0"
+    "request": "^2.79.0",
+    "comic-scraper": "exqir/comic-scraper"
   },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.1.8",
-    "babel-register": "^6.23.0",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-watch": "^4.3.11",
     "mocha": "^3.2.0",
     "supertest": "^3.0.0"
-  },
-  "babel": {
-    "presets": [
-      "env"
-    ]
   }
 }
