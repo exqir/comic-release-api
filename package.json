@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon --watch lib index.js",
-    "test": "export MUTE_CLI_LOG=true; ./node_modules/.bin/mocha ./test/test.js"
+    "test": "export MUTE_CLI_LOG=true; ./node_modules/.bin/mocha ./specs/index.js"
   },
   "author": "Malte Sellmer",
   "license": "ISC",

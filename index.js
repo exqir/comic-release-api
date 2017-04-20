@@ -13,8 +13,10 @@ function connectToDatabase (url, user, pass) {
   }
 }
 
- connectToDatabase('localhost/comic-app')
+connectToDatabase('localhost/comic-app')
 
 app.listen(port, function () {
   console.log('comic-release-api started \n listening on ' + port)
 })
+
+module.exports = app
