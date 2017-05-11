@@ -29,7 +29,7 @@ describe('comic-release-api routes', function () {
           .expect(500)
           .end(function (err, res) {
             if (err) return done(err)
-            assert.deepEqual(res.body, {errors: ['publisher not found']})
+            assert.deepEqual(res.body, {error: 'no publisher given'})
             done()
           })
       })

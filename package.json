@@ -11,13 +11,14 @@
   "author": "Malte Sellmer",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
+    "comic-scraper": "exqir/comic-scraper",
     "dateformat": "^2.0.0",
     "express": "^4.14.1",
     "mongoose": "^4.8.5",
     "node-vibrant": "^3.0.0-alpha.2",
-    "request": "^2.79.0",
-    "comic-scraper": "exqir/comic-scraper"
+    "request": "^2.79.0"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
