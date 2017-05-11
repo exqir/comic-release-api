@@ -1,30 +1,32 @@
 'use strict'
 
-let remenderImageResult = {
-  result: [
-    {
-      publisher: '58f73d57310637f324f0c96d',
-      title: 'Low',
-      url: '/comics/series/low'
-    },
-    {
-      publisher: '58f73d57310637f324f0c96d',
-      title: 'Deadly Class',
-      url: '/comics/series/deadly-class'
-    },
-    {
-      publisher: '58f73d57310637f324f0c96d',
-      title: 'Crawl Space',
-      url: '/comics/series/crawl-space'
-    },
-    {
-      publisher: '58f73d57310637f324f0c96d',
-      title: 'Popgun',
-      url: '/comics/series/popgun'
-    }
-  ]
+function getRemenderImageResult (id) {
+  return {
+    result: [
+      {
+        publisher: id,
+        title: 'Low',
+        url: '/comics/series/low'
+      },
+      {
+        publisher: id,
+        title: 'Deadly Class',
+        url: '/comics/series/deadly-class'
+      },
+      {
+        publisher: id,
+        title: 'Crawl Space',
+        url: '/comics/series/crawl-space'
+      },
+      {
+        publisher: id,
+        title: 'Popgun',
+        url: '/comics/series/popgun'
+      }
+    ]
+  }
 }
 
 module.exports = {
-  remenderImageResult: remenderImageResult
+  getRemenderImageResult: getRemenderImageResult
 }
