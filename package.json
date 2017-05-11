@@ -4,9 +4,10 @@
   "description": "this app helps you keeping track of your comic book subscriptions",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon --watch lib index.js",
-    "test": "export MUTE_CLI_LOG=true; ./node_modules/.bin/mocha ./specs/index.js"
+    "start": "env DB_SERVER=localhost env DB=comic-app node index.js",
+    "dev": "env DB_SERVER=localhost env DB=dev nodemon --watch lib index.js",
+    "server": "./node_modules/.bin/http-server ./specs/assets -a localhost",
+    "test": "export MUTE_CLI_LOG=true; env DB_SERVER=localhost env DB=test ./node_modules/.bin/mocha ./specs/index.js"
   },
   "author": "Malte Sellmer",
   "license": "ISC",
@@ -21,6 +22,7 @@
     "request": "^2.79.0"
   },
   "devDependencies": {
+    "http-server": "^0.10.0",
     "mocha": "^3.2.0",
     "supertest": "^3.0.0"
   }

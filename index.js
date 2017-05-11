@@ -3,6 +3,9 @@
 const mongoose = require('mongoose')
 const Logger = require('./lib/Logger')
 const app = require('./lib/app')
+
+const dbServer = process.env.DB_SERVER || 'localhost'
+const db = process.env.DB || 'test'
 const port = process.env.PORT || 3000
 
 function connectToDatabase (url, user, pass) {
@@ -12,8 +15,8 @@ function connectToDatabase (url, user, pass) {
     Logger.logError('connection to database failed: ' + e)
   }
 }
-
-connectToDatabase('localhost/comic-app')
+// localhost/comic-app
+connectToDatabase(dbServer + '/' + db)
 
 app.listen(port, function () {
   console.log('comic-release-api started \n listening on ' + port)

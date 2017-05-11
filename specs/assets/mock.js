@@ -1,6 +1,6 @@
 'use strict'
 
-const remenderImageResult = {
+let remenderImageResult = {
   result: [
     {
       publisher: '58f73d57310637f324f0c96d',

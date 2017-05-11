@@ -1,12 +1,29 @@
 const assert = require('assert')
 const supertest = require('supertest')
 
+const Publisher = require('../lib/models/Publisher')
+
 const app = require('../index')
 const mock = require('./assets/mock')
 
 describe('comic-release-api routes', function () {
-  before(function () {
-
+  before(function (done) {
+    new Publisher({
+      'name': 'image',
+      'iconUrl': 'https://imagecomics.com/assets/img/header-logo.png',
+      'url': 'https://imagecomics.com',
+      'displayName': 'Image Comics',
+      'baseUrl': 'http://localhost:8080/image',
+      'searchPath': '/search/results?keywords=',
+      'searchSeriesPath': '/search.html?',
+      'seriesPath': '/comcis/series/'
+    }).save(function (err, result) {
+      if(err) return done(err)
+      mock.remenderImageResult.result.map(function (obj) {
+        obj.publisher = result._id
+      })
+      done()
+    })
   })
   describe('seach for comics', function () {
     describe('search for remender on image comics', function () {
@@ -45,5 +62,8 @@ describe('comic-release-api routes', function () {
           })
       })
     })
+  })
+  after(function () {
+    Publisher.collection.drop()
   })
 })
