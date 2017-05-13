@@ -134,9 +134,9 @@ describe('comic-release-api routes', function () {
       })
     })
   })
-  after(function (done) {
-    app.db.connection.db.dropDatabase(function () {
-      done()
-    })
-  })
+  // after(function (done) {
+  //   app.db.connection.db.dropDatabase(function () {
+  //     done()
+  //   })
+  // })
 })
