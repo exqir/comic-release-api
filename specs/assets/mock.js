@@ -27,6 +27,29 @@ function getRemenderImageResult (id) {
   }
 }
 
+function getSeriesPostObject (id) {
+  return {
+    publisher: id,
+    title: 'Nailbiter',
+    url: '/serie.html'
+  }
+}
+
+function getImageSeries (id, publisher) {
+  return {
+    id: id,
+    publisher: publisher,
+    title: 'Nailbiter',
+    url: '/serie.html',
+    collectionsUrl: '/comics/collected-editions-archive/series/nailbiter',
+    issuesUrl: '/comics/release-archive/series/nailbiter',
+    collections: [],
+    issues: []
+  }
+}
+
 module.exports = {
-  getRemenderImageResult: getRemenderImageResult
+  getRemenderImageResult: getRemenderImageResult,
+  getSeriesPostObject: getSeriesPostObject,
+  getImageSeries: getImageSeries
 }

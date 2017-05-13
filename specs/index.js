@@ -5,7 +5,8 @@ const Publisher = require('../lib/models/Publisher')
 const PullList = require('../lib/models/PullList')
 
 const app = require('../index')
-const mock = require('./assets/mock')
+
+let mock = require('./assets/mock')
 
 describe('comic-release-api routes', function () {
   before(function (done) {
@@ -20,7 +21,8 @@ describe('comic-release-api routes', function () {
       'seriesPath': '/comcis/series/'
     }).save(function (err, result) {
       if(err) return done(err)
-      mock.remenderImageResult = mock.getRemenderImageResult(result.id)
+      mock.imageId = result.id
+      mock.remenderImageResult = mock.getRemenderImageResult(mock.imageId)
       done()
     })
   })
@@ -84,15 +86,30 @@ describe('comic-release-api routes', function () {
         .expect(200)
         .end(function (err, res) {
           if (err) return done(err)
-          assert.deepEqual(res.body, {result: {owner: 'testuser', list: []}})
+          assert.equal(res.body.result.owner, 'testuser')
+          assert.deepEqual(res.body.result.list, [])
+          done()
+        })
+      })
+    })
+    describe('add a new series to pullList', function () {
+      it('should return updated pullList', function (done) {
+        supertest(app)
+        .post('/api/v1/pullList/testuser/series')
+        .send({series: mock.getSeriesPostObject(mock.imageId)})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.result.list.length, 1)
+          //assert.deepEqual(res.body, {result: mock.getImageSeries('seriesId', mock.imageId)})
           done()
         })
       })
     })
   })
-  after(function () {
-    Publisher.collection.drop()
-    // TODO async 
-    PullList.collection.drop()
+  after(function (done) {
+    app.db.connection.db.dropDatabase(function () {
+      done()
+    })
   })
 })

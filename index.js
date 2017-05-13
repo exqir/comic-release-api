@@ -17,7 +17,7 @@ function connectToDatabase (url, user, pass) {
 }
 // localhost/comic-app
 connectToDatabase(dbServer + '/' + db)
-
+app.db = mongoose
 app.listen(port, function () {
   console.log('comic-release-api started \n listening on ' + port)
 })
