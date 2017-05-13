@@ -92,6 +92,19 @@ describe('comic-release-api routes', function () {
         })
       })
     })
+    describe('get pullList', function () {
+      it('should return the pullList', function (done) {
+        supertest(app)
+        .get('/api/v1/pullList/testuser')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.result.owner, 'testuser')
+          assert.deepEqual(res.body.result.list, [])
+          done()
+        })
+      })
+    })
     describe('add a new series to pullList', function () {
       it('should return updated pullList', function (done) {
         supertest(app)
@@ -115,7 +128,7 @@ describe('comic-release-api routes', function () {
           if (err) return done(err)
           assert.equal(res.body.result.length, 1)
           assert.equal(res.body.result[0].title, 'Nailbiter')
-          assert.equal(res.body.result[0].url, '/Serie.html')
+          assert.equal(res.body.result[0].url, '/serie.html')
           done()
         })
       })
