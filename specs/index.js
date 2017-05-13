@@ -77,7 +77,7 @@ describe('comic-release-api routes', function () {
       })
     })
   })
-  describe('pullList', function () {
+  describe('pullList functions', function () {
     describe('create new pullList', function () {
       it('should return the newly created pullList', function (done) {
         supertest(app)
@@ -102,6 +102,20 @@ describe('comic-release-api routes', function () {
           if (err) return done(err)
           assert.equal(res.body.result.list.length, 1)
           //assert.deepEqual(res.body, {result: mock.getImageSeries('seriesId', mock.imageId)})
+          done()
+        })
+      })
+    })
+    describe('get all series on pullList', function () {
+      it('should return array of series', function (done) {
+        supertest(app)
+        .get('/api/v1/pullList/testuser/series')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.result.length, 1)
+          assert.equal(res.body.result[0].title, 'Nailbiter')
+          assert.equal(res.body.result[0].url, '/Serie.html')
           done()
         })
       })
