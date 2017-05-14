@@ -114,7 +114,7 @@ describe('comic-release-api routes', function () {
         .end(function (err, res) {
           if (err) return done(err)
           assert.equal(res.body.result.list.length, 1)
-          //assert.deepEqual(res.body, {result: mock.getImageSeries('seriesId', mock.imageId)})
+          mock.seriesId = res.body.result.list[0]
           done()
         })
       })
@@ -133,10 +133,36 @@ describe('comic-release-api routes', function () {
         })
       })
     })
+    describe('add same series to differnt pullList', function () {
+      before(function (done) {
+        supertest(app)
+        .post('/api/v1/pullList')
+        .send({owner: 'testuser2'})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.result.owner, 'testuser2')
+          assert.deepEqual(res.body.result.list, [])
+          done()
+        })
+      })
+      it('should return updated pullList', function (done) {
+        supertest(app)
+        .post('/api/v1/pullList/testuser2/series')
+        .send({series: mock.getSeriesPostObject(mock.imageId)})
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err)
+          assert.equal(res.body.result.list.length, 1)
+          assert.equal(res.body.result.list[0], mock.seriesId)
+          done()
+        })
+      })
+    })
   })
-  // after(function (done) {
-  //   app.db.connection.db.dropDatabase(function () {
-  //     done()
-  //   })
-  // })
+  after(function (done) {
+    app.db.connection.db.dropDatabase(function () {
+      done()
+    })
+  })
 })
