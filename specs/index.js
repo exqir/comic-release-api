@@ -20,7 +20,7 @@ describe('comic-release-api routes', function () {
       'searchSeriesPath': '/search.html?',
       'seriesPath': '/comcis/series/'
     }).save(function (err, result) {
-      if(err) return done(err)
+      if (err) return done(err)
       mock.imageId = result.id
       mock.remenderImageResult = mock.getRemenderImageResult(mock.imageId)
       done()
