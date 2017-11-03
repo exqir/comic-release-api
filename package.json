@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env DB_SERVER=localhost env DB=comic-app node index.js",
-    "dev": "env DB_SERVER=localhost env DB=dev nodemon --watch lib index.js",
+    "dev": "env DB_SERVER=mongo env DB=dev nodemon --watch lib index.js",
     "server": "./node_modules/.bin/http-server ./specs/assets -a localhost",
     "test": "export MUTE_CLI_LOG=true; env DB_SERVER=localhost env DB=test ./node_modules/.bin/mocha ./specs/index.js"
   },
