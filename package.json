@@ -15,7 +15,6 @@
     "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
     "comic-scraper": "exqir/comic-scraper",
-    "comic-mongo-client": "exqir/comic-mongo-client",
     "dateformat": "^2.0.0",
     "express": "^4.14.1",
     "mongoose": "^4.8.5",
