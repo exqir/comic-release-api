@@ -6,8 +6,10 @@
   "scripts": {
     "start": "env DB_SERVER=localhost env DB=comic-app babel index.js",
     "dev": "env DB_SERVER=mongo env DB=dev nodemon --watch lib index.js --exec babel-node",
-    "server": "./node_modules/.bin/http-server ./specs/assets -a localhost",
-    "test": "export MUTE_CLI_LOG=true; env DB_SERVER=localhost env DB=test ./node_modules/.bin/mocha ./specs/index.js"
+    "test:server": "./node_modules/.bin/http-server ./test/assets -a localhost",
+    "test": "export MUTE_CLI_LOG=true; env DB_SERVER=localhost env DB=test ./node_modules/.bin/mocha ./test/index.js",
+    "docker:mongo": "docker exec -ti comicreleaseapi_mongo_1  mongo",
+    "docker:server": "docker exec -ti comicreleaseapi_web_1 bash"
   },
   "author": "Malte Sellmer",
   "license": "ISC",
