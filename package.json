@@ -6,10 +6,16 @@
   "scripts": {
     "start": "env DB_SERVER=localhost env DB=comic-app babel index.js",
     "dev": "env DB_SERVER=mongo env DB=dev nodemon --watch lib index.js --exec babel-node",
-    "test:server": "./node_modules/.bin/http-server ./test/assets -a localhost",
-    "test": "export MUTE_CLI_LOG=true; env DB_SERVER=localhost env DB=test ./node_modules/.bin/mocha ./test/index.js",
-    "docker:mongo": "docker exec -ti comicreleaseapi_mongo_1  mongo",
-    "docker:server": "docker exec -ti comicreleaseapi_web_1 bash"
+    "test": "export MUTE_CLI_LOG=true; ./node_modules/.bin/mocha ./test/index.js",
+    "pretest": "npm run test:app && npm run test:server",
+    "posttest": "pkill -f http-server",
+    "test:app": "env DB_SERVER=mongo env DB=test babel index.js &",
+    "test:server": "./node_modules/.bin/http-server ./test/assets -a localhost &",
+    "docker:up": "env MODE=start docker-compose up",
+    "docker:dev": "env MODE=dev docker-compose up",
+    "docker:test": "env MODE=test docker-compose up",
+    "docker:mongo": "docker exec -ti comicreleaseapi_mongo_1 mongo",
+    "docker:bash": "docker exec -ti comicreleaseapi_web_1 bash"
   },
   "author": "Malte Sellmer",
   "license": "ISC",
