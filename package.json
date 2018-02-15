@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "env DB_SERVER=localhost env DB=comic-app babel index.js",
-    "dev": "env DB_SERVER=mongo env DB=dev nodemon --watch lib index.js --exec babel-node",
+    "dev": "env DB_SERVER=mongo env DB=dev ./node_modules/.bin/nodemon --watch lib index.js --exec babel-node",
     "pretest": "npm run test:server",
     "test": "env MUTE_CLI_LOG=true DB_SERVER=mongo env DB=test ./node_modules/.bin/mocha --require babel-polyfill --compilers js:babel-core/register ./test/index.js",
     "posttest": "pkill -f http-server",
@@ -41,6 +41,7 @@
     "chai": "^4.1.2",
     "http-server": "^0.10.0",
     "mocha": "^3.2.0",
+    "nodemon": "^1.14.12",
     "supertest": "^3.0.0",
     "testdouble": "^3.5.0"
   }
