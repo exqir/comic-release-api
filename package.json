@@ -7,7 +7,7 @@
     "start": "env DB_SERVER=localhost env DB=comic-app babel index.js",
     "dev": "env DB_SERVER=mongo env DB=dev ./node_modules/.bin/nodemon --watch lib index.js --exec babel-node",
     "pretest": "npm run test:server",
-    "test": "env MUTE_CLI_LOG=true DB_SERVER=mongo env DB=test ./node_modules/.bin/mocha --require babel-polyfill --compilers js:babel-core/register ./test/index.js",
+    "test": "env MUTE_CLI_LOG=true DB_SERVER=mongo env DB=test ./node_modules/.bin/mocha --require babel-polyfill --compilers js:babel-core/register --colors ./test/index.js",
     "posttest": "pkill -f http-server",
     "test:server": "./node_modules/.bin/http-server ./test/assets -a localhost -p 3001 &",
     "test:specs": "find ./lib -name '*.spec.js' | xargs ./node_modules/.bin/mocha -R spec --require babel-polyfill --compilers js:babel-core/register",

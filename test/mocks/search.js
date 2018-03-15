@@ -7,28 +7,28 @@ export const searchResults = {
         _id: "image"
       },
       title: 'Low',
-      url: '/comics/series/low'
+      url: '/series.html'
     },
     {
       publisher: {
         _id: "image"
       },
       title: 'Deadly Class',
-      url: '/comics/series/deadly-class'
+      url: '/series.html'
     },
     {
       publisher: {
         _id: "image"
       },
       title: 'Crawl Space',
-      url: '/comics/series/crawl-space'
+      url: '/series.html'
     },
     {
       publisher: {
         _id: "image"
       },
       title: 'Popgun',
-      url: '/comics/series/popgun'
+      url: '/series.html'
     }
   ]
 }

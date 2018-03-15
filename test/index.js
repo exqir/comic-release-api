@@ -1,17 +1,12 @@
 import { describe, it, before, after, done } from 'mocha'
 import { assert } from 'chai'
-const supertest = require('supertest')
-
-const Publisher = require('../lib/models/Publisher')
-const PullList = require('../lib/models/PullList')
+import supertest from 'supertest'
 
 import { app } from '../index'
 import { get as getDb } from '../lib/mongo'
 
-let mock = require('./assets/mock')
-
 import { createMockPullList, pulllistOwner, pulllistsResult, pulllistResult } from './mocks/pulllist'
-import { createMockPublisher , image } from './mocks/publisher'
+import { createMockPublisher , imageConfig } from './mocks/publisher'
 import { searchResults } from './mocks/search'
 
 describe('comic-release-api', function () {
@@ -49,6 +44,54 @@ describe('comic-release-api', function () {
       .end(function (err, res) {
         if (err) return done(err)
         assert.deepEqual(res.body.data, pulllistResult)
+        done()
+      })
+    })
+  })
+
+  describe('publishers', () => { 
+    it('should return all publishers', (done) => {
+      supertest(app)
+      .post('/api/graphql/v1/')
+      .send({ query: `{ publishers(names: ["image"]) { 
+        _id,
+        name,
+        iconUrl,
+        url,
+        baseUrl,
+        searchPath,
+        searchSeriesPath,
+        seriesPath
+       } }`})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function (err, res) {
+        if (err) return done(err)
+        assert.deepEqual(res.body.data, { publishers: [imageConfig]})
+        done()
+      })
+    })
+  })
+
+  describe('publisher', () => { 
+    it('should return given publisher', (done) => {
+      supertest(app)
+      .post('/api/graphql/v1/')
+      .send({ query: `{ publisher(name: "image") { 
+        _id,
+        name,
+        iconUrl,
+        url,
+        baseUrl,
+        searchPath,
+        searchSeriesPath,
+        seriesPath
+       } }`})
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function (err, res) {
+        if (err) return done(err)
+        assert.deepEqual(res.body.data, { publisher: imageConfig})
         done()
       })
     })

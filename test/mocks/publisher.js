@@ -12,7 +12,7 @@ export const imageConfig = {
   'iconUrl': 'https://imagecomics.com/assets/img/header-logo.png',
   'url': 'https://imagecomics.com',
   'baseUrl': 'http://localhost:3001/image',
-  'searchPath': '/search/results?keywords=',
+  'searchPath': '/search.html?keywords=',
   'searchSeriesPath': '/search.html?',
   'seriesPath': '/comcis/series/'
 }
