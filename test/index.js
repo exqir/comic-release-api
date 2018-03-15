@@ -5,9 +5,12 @@ import supertest from 'supertest'
 import { app } from '../index'
 import { get as getDb } from '../lib/mongo'
 
-import { createMockPullList, pulllistOwner, pulllistsResult, pulllistResult } from './mocks/pulllist'
-import { createMockPublisher , imageConfig } from './mocks/publisher'
-import { searchResults } from './mocks/search'
+import { createMockPullList } from './mocks/pulllist'
+import { createMockPublisher } from './mocks/publisher'
+
+import { pulllists, pulllist } from './modules/pulllist'
+import { publishers, publisher } from './modules/publisher'
+import { search } from './modules/search';
 
 describe('comic-release-api', function () {
   before(function (done) {
@@ -19,98 +22,13 @@ describe('comic-release-api', function () {
     .catch(err => done(err))
   })
 
-  describe('pulllists', () => { 
-    it('should return all pulllists', (done) => {
-      supertest(app)
-      .post('/api/graphql/v1/')
-      .send({ query: '{ pulllists { owner } }'})
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function (err, res) {
-        if (err) return done(err)
-        assert.deepEqual(res.body.data, pulllistsResult)
-        done()
-      })
-    })
-  })
+  describe('pulllists', pulllists)
+  describe('pulllist', pulllist)
 
-  describe('pulllist', () => {
-    it('should return pulllist of given owner', (done) => {
-      supertest(app)
-      .post('/api/graphql/v1/')
-      .send({ query: `{ pulllist(owner: "${pulllistOwner}") { owner }}`})
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function (err, res) {
-        if (err) return done(err)
-        assert.deepEqual(res.body.data, pulllistResult)
-        done()
-      })
-    })
-  })
+  describe('publishers', publishers)
+  describe('publisher', publisher)
 
-  describe('publishers', () => { 
-    it('should return all publishers', (done) => {
-      supertest(app)
-      .post('/api/graphql/v1/')
-      .send({ query: `{ publishers(names: ["image"]) { 
-        _id,
-        name,
-        iconUrl,
-        url,
-        baseUrl,
-        searchPath,
-        searchSeriesPath,
-        seriesPath
-       } }`})
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function (err, res) {
-        if (err) return done(err)
-        assert.deepEqual(res.body.data, { publishers: [imageConfig]})
-        done()
-      })
-    })
-  })
-
-  describe('publisher', () => { 
-    it('should return given publisher', (done) => {
-      supertest(app)
-      .post('/api/graphql/v1/')
-      .send({ query: `{ publisher(name: "image") { 
-        _id,
-        name,
-        iconUrl,
-        url,
-        baseUrl,
-        searchPath,
-        searchSeriesPath,
-        seriesPath
-       } }`})
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function (err, res) {
-        if (err) return done(err)
-        assert.deepEqual(res.body.data, { publisher: imageConfig})
-        done()
-      })
-    })
-  })
-
-  describe('search', function () {
-    it('should return array of search results', function (done) {
-      supertest(app)
-      .post('/api/graphql/v1/')
-      .send({ query: '{ search(searchPhrase: "low", publishers: ["image"]) { publisher { _id }, title, url }}'})
-      .expect(200)
-      .expect('Content-Type', /json/)
-      .end(function (err, res) {
-        if (err) return done(err)
-        assert.deepEqual(res.body.data, searchResults)
-        done()
-      })
-    })
-  })
+  describe('search', search)
 
   after(function (done) {
     getDb().db.dropDatabase(function () {
