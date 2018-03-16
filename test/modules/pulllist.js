@@ -16,6 +16,7 @@ export function pulllist() {
   it('should return pulllist of given owner', returnPulllistOfOwner)
   it('should return owner of created pulllist', createPulllist)
   it('should contain pulled series', pullSeries)
+  it('should add series only once to pulllist', pullSeries)
 }
 
 function returnAllpulllists(done) {
