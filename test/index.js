@@ -1,8 +1,5 @@
-import { describe, it, before, after, done } from 'mocha'
-import { assert } from 'chai'
-import supertest from 'supertest'
+import { describe, before, after, done } from 'mocha'
 
-import { app } from '../index'
 import { get as getDb } from '../lib/mongo'
 
 import { createMockPullList } from './mocks/pulllist'
@@ -19,7 +16,7 @@ describe('comic-release-api', function () {
     promises.push(createMockPublisher())
     Promise.all(promises)
     .then(() => done())
-    .catch(err => done(err))
+    .catch(err => getDb().db.dropDatabase(() => done(err)))
   })
 
   describe('pulllists', pulllists)

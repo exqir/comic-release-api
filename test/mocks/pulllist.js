@@ -8,10 +8,12 @@ export async function createMockPullList() {
 
 export const pulllistOwner = "Wynnona"
 
-export const pulllistResult = {
-  "pulllist": {
-      "owner": "Wynnona"
+export function pulllistResult(owner) {
+  return {
+    "pulllist": {
+      "owner": owner
     }
+  }
 }
 
 export const pulllistsResult = {
@@ -20,4 +22,26 @@ export const pulllistsResult = {
       "owner": "Wynnona"
     }
   ]
+}
+
+export function createPulllistResult(owner) {
+  return {
+    "createPullList": {
+      "owner": owner
+    }
+  }
+}
+
+export function pullSeriesResult(series) {
+  return {
+    "pullSeries": {
+      "list": [
+        {
+          "title": series,
+          "collectionsUrl": "/collections.html",
+          "issuesUrl": "/issues.html"
+        }
+      ]
+    }
+  }
 }
