@@ -1,4 +1,4 @@
-import { describe, before, after, done } from 'mocha'
+import { describe, before, after } from 'mocha'
 
 import { get as getDb } from '../lib/mongo'
 

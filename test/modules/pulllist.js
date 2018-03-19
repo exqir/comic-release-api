@@ -1,80 +1,31 @@
-import { describe, it, before, after, done } from 'mocha'
-import { assert } from 'chai'
-import supertest from 'supertest'
+import { it } from 'mocha'
 
-import { app } from '../../index'
+import { testDeepEqual } from './common'
 
 import { pulllistOwner, pulllistsResult,
   pulllistResult, createPulllistResult, pullSeriesResult } from '../mocks/pulllist'
 import { imageConfig } from '../mocks/publisher'
 
 export function pulllists() {
-  it('should return all pulllists', returnAllpulllists)
+  it('should return all pulllists', testDeepEqual(queryAllPullLists, pulllistsResult))
 }
 
 export function pulllist() {
-  it('should return pulllist of given owner', returnPulllistOfOwner)
-  it('should return owner of created pulllist', createPulllist)
-  it('should contain pulled series', pullSeries)
-  it('should add series only once to pulllist', pullSeries)
+  it('should return pulllist of given owner', testDeepEqual(queryPullListByOwner, pulllistResult(pulllistOwner)))
+  it('should return owner of created pulllist', testDeepEqual(queryCreatePullList, createPulllistResult("Leonardo")))
+  it('should contain pulled series', testDeepEqual(queryPullSeries, pullSeriesResult("Nailbiter")))
+  it('should add series only once to pulllist', testDeepEqual(queryPullSeries, pullSeriesResult("Nailbiter")))
 }
 
-function returnAllpulllists(done) {
-  supertest(app)
-  .post('/api/graphql/v1/')
-  .send({ query: '{ pulllists { owner } }'})
-  .expect(200)
-  .expect('Content-Type', /json/)
-  .end(function (err, res) {
-    if (err) return done(err)
-    assert.deepEqual(res.body.data, pulllistsResult)
-    done()
-  })
-}
-
-function returnPulllistOfOwner(done) {
-  supertest(app)
-  .post('/api/graphql/v1/')
-  .send({ query: `{ pulllist(owner: "${pulllistOwner}") { owner }}`})
-  .expect(200)
-  .expect('Content-Type', /json/)
-  .end(function (err, res) {
-    if (err) return done(err)
-    assert.deepEqual(res.body.data, pulllistResult(pulllistOwner))
-    done()
-  })
-}
-
-function createPulllist(done) {
-  supertest(app)
-  .post('/api/graphql/v1/')
-  .send({ query: `mutation { createPullList(owner: "Leonardo") { owner }}`})
-  .expect(200)
-  .expect('Content-Type', /json/)
-  .end(function (err, res) {
-    if (err) return done(err)
-    assert.deepEqual(res.body.data, createPulllistResult("Leonardo"))
-    done()
-  })
-}
-
-function pullSeries(done) {
-  supertest(app)
-  .post('/api/graphql/v1/')
-  .send({ query: `mutation {
-    pullSeries(owner: "${pulllistOwner}", publisher: "${imageConfig._id}", seriesUrl: "/series.html") {
-      list {
-        title,
-        collectionsUrl,
-        issuesUrl
-      }
+const queryAllPullLists = '{ pulllists { owner } }'
+const queryPullListByOwner = `{ pulllist(owner: "${pulllistOwner}") { owner }}`
+const queryCreatePullList = `mutation { createPullList(owner: "Leonardo") { owner }}`
+const queryPullSeries = `mutation {
+  pullSeries(owner: "${pulllistOwner}", publisher: "${imageConfig._id}", seriesUrl: "/series.html") {
+    list {
+      title,
+      collectionsUrl,
+      issuesUrl
     }
-  }`})
-  .expect(200)
-  .expect('Content-Type', /json/)
-  .end(function (err, res) {
-    if (err) return done(err)
-    assert.deepEqual(res.body.data, pullSeriesResult("Nailbiter"))
-    done()
-  })
-}
+  }
+}`
