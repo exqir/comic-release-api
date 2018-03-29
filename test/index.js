@@ -1,6 +1,5 @@
 import { describe, before, after } from 'mocha'
-
-import { get as getDb } from '../lib/mongo'
+import mongoose from 'mongoose'
 
 import { createMockPullList } from './mocks/pulllist'
 import { createMockPublisher } from './mocks/publisher'
@@ -28,9 +27,8 @@ describe('comic-release-api', function () {
   describe('search', search)
 
   after(function (done) {
-    getDb().db.dropDatabase(function () {
-      done()
-    })
+    mongoose.connection.db.dropDatabase()
+    .then(done())
   })
 })
 
