@@ -3,9 +3,9 @@ services:
   web:
     build: .
     env_file:
-      dotenv/develop.env
+      dotenv/test.env
     environment:
-      - MODE=dev
+      - MODE=test
     volumes:
       - .:/app
       - /app/node_modules

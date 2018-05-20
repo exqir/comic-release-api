@@ -1,10 +1,12 @@
 FROM node:8.8
 
-ADD . /app
-
 WORKDIR /app
 
+COPY package.json .
+
 RUN npm install
+
+COPY . .
 
 EXPOSE 3000
 
