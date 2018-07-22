@@ -1,6 +1,6 @@
 'use strict'
 
-import Publisher from '../../lib/models/Publisher'
+import { Publisher } from '../../lib/models/Publisher'
 
 export async function createMockPublisher() {
   return await new Publisher(imageConfig).save()
