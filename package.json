@@ -9,7 +9,7 @@
     "pretest": "npm run test:server",
     "test": "mocha -r babel-polyfill  --compilers js:babel-core/register --colors ./test/index.js",
     "posttest": "pkill -f http-server",
-    "test:server": "http-server ./test/assets -a localhost -p 3001 &",
+    "test:server": "http-server ./test/assets -a localhost -p 3001 -s &",
     "test:specs": "mocha -R spec --require babel-polyfill --compilers js:babel-core/register lib/**/*.spec.js",
     "docker:dev": "docker-compose up",
     "docker:test": "docker-compose -f docker-compose.test.yml up",
