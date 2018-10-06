@@ -7,6 +7,9 @@ import { initializeApp } from '../app'
 
 const app = initializeApp()
 
+export function query(query: string) { return { query } }
+export function result(data: object) { return { data } }
+
 export function checkHeader(
   path: string,
   header: string,
@@ -36,6 +39,23 @@ export function get(
 ): Promise<any> {
   return supertest(app)
     .get(path)
+    .expect(expectedStatus)
+    .expect('Content-Type', expectedType)
+    .then(res => {
+      expect(res.body).toEqual(expectedPayload)
+    })
+}
+
+export function post(
+  path: string,
+  payload: object,
+  expectedPayload: object,
+  expectedStatus: number = 200,
+  expectedType: RegExp = /json/,
+): Promise<any> {
+  return supertest(app)
+    .post(path)
+    .send(payload)
     .expect(expectedStatus)
     .expect('Content-Type', expectedType)
     .then(res => {

@@ -4,11 +4,12 @@
   "description": "this app helps you keeping track of your comic book subscriptions",
   "main": "./dist/index.js",
   "scripts": {
+    "dev": "npm run build && concurrently \"npm run build:dev\" \"npm run start:dev\" --kill-others",
     "start:dev": "nodemon --watch dist",
-    "build:dev": "tsc",
+    "build:dev": "tsc -w",
+    "build": "tsc",
     "test:functional": "jest",
     "start": "babel index.js",
-    "dev": "nodemon --watch lib index.js --exec babel-node",
     "pretest": "npm run test:server",
     "test": "mocha -r babel-polyfill  --compilers js:babel-core/register --colors ./test/index.js",
     "posttest": "pkill -f http-server",
@@ -27,6 +28,7 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "fp-ts": "^1.9.0",
     "graphql": "^14.0.2",
     "graphql-tools": "^3.1.1",
     "mongoose": "^5.2.13",
@@ -41,12 +43,17 @@
     "@types/mongoose": "^5.2.11",
     "@types/passport": "^0.4.6",
     "@types/passport-local": "^1.0.33",
-    "@types/ramda": "github:types/npm-ramda#dist",
+    "@types/ramda": "^0.25.39",
     "@types/supertest": "^2.0.6",
+    "concurrently": "^4.0.1",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.4",
     "supertest": "^3.3.0",
     "ts-jest": "^23.1.4",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "typescript-eslint-parser": "^19.0.2"
   }
 }
