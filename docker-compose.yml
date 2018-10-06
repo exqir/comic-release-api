@@ -1,18 +1,5 @@
 version: "2"
 services:
-  web:
-    build: .
-    env_file:
-      dotenv/develop.env
-    environment:
-      - MODE=dev
-    volumes:
-      - .:/app
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-    links: 
-      - mongo
   mongo:
     image: mongo
     ports: 
