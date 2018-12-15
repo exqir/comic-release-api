@@ -1,13 +1,15 @@
 import { Server } from 'http'
 import { Express } from 'express'
-import { initializeApp } from '../app'
-import { getConfig } from '../app/config'
-import { connectToDb } from '../app/database'
 
-export function start(): Server {
-  const app: Express = initializeApp()
-  const { port, path, dbServer, dbName } = getConfig()
+import { ApplicationConfig, ApplicationDependencies } from '../types/app'
 
-  connectToDb({ dbServer, dbName })
-  return app.listen({ port }, () => console.log(`Started Comic APP on http://localhost:${port}${path}`))
+export function start(
+  config: ApplicationConfig,
+  dependencies: ApplicationDependencies,
+  app: (config: ApplicationConfig, dependencies: ApplicationDependencies) => Express
+): Server {
+  return app(config, dependencies).listen(
+    { port: config.port },
+    () => console.log(`Started Comic APP on http://localhost:${config.port}${config.path}`),
+  )
 }

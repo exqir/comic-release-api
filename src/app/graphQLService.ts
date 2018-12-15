@@ -1,9 +1,9 @@
 import { Express } from 'express'
 import { ApolloServer, gql } from 'apollo-server-express'
-import { getConfig } from './config'
+import { ApplicationConfig, ApplicationDependencies } from '../types/app';
 
-export const setupGraphQL = (app: Express): Express => {
-  const { path } = getConfig()
+export const setupGraphQL = (config: ApplicationConfig, dependencies: ApplicationDependencies) => (app: Express): Express => {
+  const { path } = config
 
   const server = new ApolloServer({
     typeDefs: gql`

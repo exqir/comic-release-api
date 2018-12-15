@@ -2,6 +2,7 @@ import { Express} from 'express'
 import * as passport from 'passport'
 // import { Strategy } from 'passport-local'
 import * as session from 'express-session'
+import { ApplicationConfig, ApplicationDependencies } from '../types/app';
 
 // import { UserType } from '../types/mongo'
 
@@ -10,7 +11,7 @@ import * as session from 'express-session'
  * @TODO: remove devMode fallback and instead throw a meaningful error that can be handled
  */
 
-export const setupAuthentication = (app: Express): Express => {
+export const setupAuthentication = (config: ApplicationConfig, dependencies: ApplicationDependencies) => (app: Express): Express => {
 
   app.use(session({
     secret: process.env.SESSION_SECRET || 'devMode',

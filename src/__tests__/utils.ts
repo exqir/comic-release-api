@@ -1,11 +1,18 @@
 import * as supertest from 'supertest'
 import { initializeApp } from '../app'
+import { getConfig } from '../app/config'
+import { createLogger } from '../lib/logger'
 
 /**
  * Import globals from jest.
  */
 
-const app = initializeApp()
+const app = initializeApp(
+  getConfig(),
+  {
+    logger: createLogger('TEST-LOGGER')
+  },
+)
 
 export function query(query: string) { return { query } }
 export function result(data: object) { return { data } }

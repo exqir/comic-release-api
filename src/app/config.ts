@@ -1,5 +1,5 @@
-import { ApplicationConfig } from '../types/app'
 import { getEnvVar } from '../lib'
+import { ApplicationConfig } from '../types/app';
 
 export const getConfig = (): ApplicationConfig => ({
   port: getEnvVar('PORT').map(parseInt).getOrElse(3000),
