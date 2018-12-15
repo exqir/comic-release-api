@@ -1,4 +1,3 @@
-import { Mongoose } from "mongoose";
 import { Option } from 'fp-ts/lib/Option'
 
 export interface ApplicationConfig {
@@ -10,7 +9,6 @@ export interface ApplicationConfig {
 
 export interface ApplicationDependencies {
   logger?: Logger,
-  db?: Option<Mongoose>,
   [name: string]: any,
 }
 

@@ -8,8 +8,9 @@ export function start(
   dependencies: ApplicationDependencies,
   app: (config: ApplicationConfig, dependencies: ApplicationDependencies) => Express
 ): Server {
+  const { logger } = dependencies.getDependencies()
   return app(config, dependencies).listen(
     { port: config.port },
-    () => console.log(`Started Comic APP on http://localhost:${config.port}${config.path}`),
+    () => logger.log(`Started Comic APP on http://localhost:${config.port}${config.path}`),
   )
 }

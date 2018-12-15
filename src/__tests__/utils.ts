@@ -1,6 +1,7 @@
 import * as supertest from 'supertest'
 import { initializeApp } from '../app'
 import { getConfig } from '../app/config'
+import { createDependencyMap } from '../lib/dependencies'
 import { createLogger } from '../lib/logger'
 
 /**
@@ -9,9 +10,9 @@ import { createLogger } from '../lib/logger'
 
 const app = initializeApp(
   getConfig(),
-  {
-    logger: createLogger('TEST-LOGGER')
-  },
+  createDependencyMap(
+    { logger: createLogger('TEST-LOGGER', 'de-DE') },
+  )
 )
 
 export function query(query: string) { return { query } }
@@ -32,7 +33,7 @@ export function checkHeader(
 export function options(
   path: string,
   expectedStatus: number = 200,
-) : Promise<any> {
+): Promise<any> {
   return supertest(app)
     .options(path)
     .expect(expectedStatus)
