@@ -1,6 +1,11 @@
 import { UserModel, User } from "../types/mongo";
+import { DataService } from "../types/services";
 
-export function createUserService(Model: UserModel) {
+export interface UserService extends DataService<User> {
+  verifyUser: (username: string, password: string) => Promise<User | Error>
+}
+
+export function createUserService(Model: UserModel): UserService {
   async function getUserByName(username: string): Promise<User> {
     return Model.findOne({ username }).exec()
   }
@@ -13,8 +18,8 @@ export function createUserService(Model: UserModel) {
 
   return {
     // @TODO: don't return hashed password
-    create: async (username: string, password: string): Promise<User> => new Model({ username, password }).save(),
-    getById: async (id: string): Promise<User> => Model.findById(id).exec(),
-    verifyUser: async (username: string, password: string): Promise<User | Error> => verifyUser(username, password),
+    create: async user => new Model(user).save(),
+    getById: async id => Model.findById(id).exec(),
+    verifyUser,
   }
 }

@@ -1,8 +1,11 @@
-import { CreatorModel, Creator, ComicBook } from "../types/mongo";
+import { CreatorModel, Creator } from "../types/mongo";
+import { DataService } from "../types/services";
 
-export function createCreatorService(Model: CreatorModel) {
+export interface CreatorService extends DataService<Creator> { }
+
+export function createCreatorService(Model: CreatorModel): CreatorService {
   return {
-    create: async (creator: Creator): Promise<Creator> => new Model(creator).save(),
-    getById: async (id: string): Promise<Creator> => Model.findById(id).exec(),
+    create: async creator => new Model(creator).save(),
+    getById: async id => Model.findById(id).exec(),
   }
 }

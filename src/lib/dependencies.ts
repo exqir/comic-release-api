@@ -1,7 +1,7 @@
 import { ApplicationDependencies, DependencyInjector } from '../types/app'
 
-export function createDependencyMap(initialDependencies?: ApplicationDependencies): DependencyInjector {
-  const dependencies: ApplicationDependencies = initialDependencies || {}
+export function createDependencyMap(initialDependencies: ApplicationDependencies): DependencyInjector {
+  const dependencies: ApplicationDependencies = initialDependencies
 
   return {
     getDependencies: () => dependencies,

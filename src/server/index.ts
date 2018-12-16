@@ -1,12 +1,12 @@
 import { Server } from 'http'
 import { Express } from 'express'
 
-import { ApplicationConfig, ApplicationDependencies } from '../types/app'
+import { ApplicationConfig, DependencyInjector } from '../types/app'
 
 export function start(
   config: ApplicationConfig,
-  dependencies: ApplicationDependencies,
-  app: (config: ApplicationConfig, dependencies: ApplicationDependencies) => Express
+  dependencies: DependencyInjector,
+  app: (config: ApplicationConfig, dependencies: DependencyInjector) => Express
 ): Server {
   const { logger } = dependencies.getDependencies()
   return app(config, dependencies).listen(

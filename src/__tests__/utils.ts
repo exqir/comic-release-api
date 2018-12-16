@@ -20,7 +20,7 @@ const app = initializeApp(
 )
 
 export function query(query: string) { return { query } }
-export function result(data: object) { return { data } }
+export function result(data: any) { return { data } }
 
 export function checkHeader(
   path: string,
@@ -45,7 +45,7 @@ export function options(
 
 export function get(
   path: string,
-  expectedPayload: object,
+  expectedPayload: any,
   expectedStatus: number = 200,
   expectedType: RegExp = /json/,
 ): Promise<any> {
@@ -60,8 +60,8 @@ export function get(
 
 export function post(
   path: string,
-  payload: object,
-  expectedPayload: object,
+  payload: any,
+  expectedPayload: any,
   expectedStatus: number = 200,
   expectedType: RegExp = /json/,
 ): Promise<any> {

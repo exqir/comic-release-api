@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import * as bcrypt from 'bcrypt'
 
-import { User as UserType } from '../../types/mongo'
+import { User as UserType, UserModel } from '../../types/mongo'
 
 const schema = new Schema({
   username: { type: String, required: true },
@@ -28,4 +28,4 @@ schema.methods.isValidPassword = async function (password: string): Promise<bool
   return bcrypt.compare(password, this.password)
 }
 
-export const User = model('User', schema)
+export const User: UserModel = model('User', schema)

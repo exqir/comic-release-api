@@ -7,7 +7,7 @@ import { PullListResolver } from './pulllist'
 import { SeriesResolver } from './series'
 import { ComicResolver } from './comic'
 
-export const resolvers: object = {
+export const resolvers: any = {
   ...RootQuery,
   ...RootMutation,
   ...SearchResolver,

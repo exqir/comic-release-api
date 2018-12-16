@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose'
+import { PublisherModel } from '../../types/mongo';
 
-export const Publisher = model('Publisher', new Schema({
+export const Publisher: PublisherModel = model('Publisher', new Schema({
   _id: String,
   name: String,
   iconUrl: String,

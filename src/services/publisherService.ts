@@ -1,10 +1,14 @@
 import { PublisherModel, Publisher } from "../types/mongo";
+import { DataListService } from "../types/services";
 
-export function createPublisherService(Model: PublisherModel) {
+export interface PublisherService extends DataListService<Publisher> { }
+
+export function createPublisherService(Model: PublisherModel): PublisherService {
   return {
-    getAll: async (): Promise<Array<Publisher>> => Model.find().exec(),
-    getByName: async (name: string): Promise<Publisher> => Model.findOne({ _id: name }).exec(),
-    getByList: async (listOfIds: Array<string>): Promise<Publisher> => Model.where('_id').in(listOfIds).exec(),
-    addComicSeries: async (name: string, series: string): Promise<Publisher> => Model.findOneAndUpdate({ _id: name, series: { $ne: series } }, { $push: { series: series } }, { new: true }),
+    create: async publisher => new Model(publisher).save(),
+    getAll: async () => Model.find().exec(),
+    getById: async name => Model.findById(name).exec(),
+    getByList: async list => Model.where('_id').in(list).exec(),
+    insert: async (name, series) => Model.findOneAndUpdate({ _id: name, series: { $ne: series } }, { $push: { series: series } }, { new: true }),
   }
 }

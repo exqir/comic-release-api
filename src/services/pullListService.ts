@@ -1,11 +1,14 @@
 import { PullListModel, PullList } from "../types/mongo";
+import { DataListService } from "../types/services";
 
-export function createPullListService(Model: PullListModel) {
+export interface PullListService extends DataListService<PullList> { }
+
+export function createPullListService(Model: PullListModel): PullListService {
   return {
-    getAll: async (): Promise<Array<PullList>> => Model.find().exec(),
-    getByOwner: async (owner: string): Promise<PullList> => Model.findOne({ owner }).exec(),
-    create: async (owner: string): Promise<PullList> => new Model({ owner, list: [] }).save(),
-    addSeries: async (owner: string, series: string): Promise<PullList> => Model.findOneAndUpdate({ owner: owner, list: { $ne: series } }, { $push: { list: series } }, { new: true }),
-    removeSeries: async (owner: string, series: string): Promise<PullList> => Model.findOneAndUpdate({ owner }, { $pull: { list: series } }, { new: true }).exec(),
+    create: async pullList => new Model(pullList).save(),
+    getById: async id => Model.findById(id).exec(),
+    getByQuery: async query => Model.findOne(query).exec(),
+    insert: async (owner, series) => Model.findOneAndUpdate({ owner: owner, list: { $ne: series } }, { $push: { list: series } }, { new: true }),
+    remove: async (owner, series) => Model.findOneAndUpdate({ owner }, { $pull: { list: series } }, { new: true }).exec(),
   }
 }

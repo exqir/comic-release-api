@@ -4,7 +4,6 @@ import { ApplicationConfig, DependencyInjector } from '../types/app';
 
 export const setupGraphQL = (config: ApplicationConfig, dependencies: DependencyInjector) => (app: Express): Express => {
   const { path } = config
-  const { db } = dependencies.getDependencies()
 
   const server = new ApolloServer({
     typeDefs: gql`
@@ -19,7 +18,7 @@ export const setupGraphQL = (config: ApplicationConfig, dependencies: Dependency
     },
     context: ({ req }: { req: Request }) => ({
       req,
-      db,
+      di: dependencies,
     })
   })
 

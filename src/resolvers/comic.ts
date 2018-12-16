@@ -1,29 +1,33 @@
-import { GraphQLTypeResolver } from 'graphql'
-
-import { DependencyFactory } from '../../factories/dependencyFactory'
-import { GraphQLContext, GraphQLResolver } from '../types/graphQL';
+import { GraphQLResolver } from '../types/graphQL';
 import { ComicBook } from '../types/mongo';
 
-const { comicService, publisherService, seriesService } = DependencyFactory.getDependencies()
-
-interface ComicRoot {
-  getComicBook: GraphQLResolver<ComicBook, Pick<ComicBook, 'id'>>;
+interface ComicRootQuery {
+  getComicBook: GraphQLResolver<ComicBook, { id: string }>;
 }
 
 interface ComicResolver {
   Comic: {
-    publisher: GraphQLTypeResolver<ComicBook, GraphQLContext>;
-    series: GraphQLTypeResolver<ComicBook, GraphQLContext>;
+    publisher: GraphQLResolver<ComicBook, any>;
+    series: GraphQLResolver<ComicBook, any>;
   }
 }
 
-export const ComicRoot: ComicRoot = {
-  getComicBook: async (_, { id }) => await comicService.getComicById(id)
+export const ComicRoot: ComicRootQuery = {
+  getComicBook: async (_, { id }, { di }) => {
+    const { comicBookService } = di.getDependencies()
+    return comicBookService.getById(id)
+  },
 }
 
 export const ComicResolver: ComicResolver = {
   Comic: {
-    publisher: async ({ publisher }) => await publisherService.getPublisherByName(publisher),
-    series: async ({ series }) => await seriesService.getSeriesById(series),
+    publisher: async ({ publisher }, _, { di }) => {
+      const { publisherService } = di.getDependencies()
+      return publisherService.getById(publisher)
+    },
+    series: async ({ series }, _, { di }) => {
+      const { comicSeriesService } = di.getDependencies()
+      return comicSeriesService.getById(series)
+    },
   }
 }

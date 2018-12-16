@@ -1,10 +1,15 @@
 import { ComicBook, ComicBookModel } from "../types/mongo";
+import { DataService } from "../types/services";
 
-export function createComicBookService(Model: ComicBookModel) {
+export interface ComicBookService extends DataService<ComicBook> {
+  updateRealeaseDate: (id: string, newDate: Date) => Promise<ComicBook>
+}
+
+export function createComicBookService(Model: ComicBookModel): ComicBookService {
   return {
-    create: async (issue: ComicBook): Promise<ComicBook> => new Model(issue).save(),
-    getById: async (id: string): Promise<ComicBook> => Model.findById(id).exec(),
-    getByList: async (listOfIds: Array<string>): Promise<Array<ComicBook>> => Model.find().where('_id').in(listOfIds).exec(),
-    updateRealeaseDate: async (id: string, newDate: Date): Promise<ComicBook> => Model.findByIdAndUpdate(id, { releaseDate: newDate }, { new: true }).exec()
+    create: async issue => new Model(issue).save(),
+    getById: async id => Model.findById(id).exec(),
+    getByList: async list => Model.find().where('_id').in(list).exec(),
+    updateRealeaseDate: async (id, newDate) => Model.findByIdAndUpdate(id, { releaseDate: newDate }, { new: true }).exec()
   }
 }

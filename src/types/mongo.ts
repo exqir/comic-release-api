@@ -1,14 +1,20 @@
 import { Document, Model } from "mongoose";
 
+export interface Search {
+  title: string,
+  url: string,
+  publisher: string,
+}
+
 /**
  * Definition of a ComicBook
  */
 export interface ComicBook extends Document {
-  id: string;
+  _id: string;
   title: string;
   issue: string;
   releaseDate: Date;
-  creators: object;
+  creators: string[];
   series: string;
   publisher: string;
   coverUrl: string;
@@ -21,7 +27,7 @@ export interface ComicBookModel extends Model<ComicBook> { }
  * Definition of a Creator
  */
 export interface Creator extends Document {
-  id: string;
+  _id: string;
   firstname: string;
   lastname: string;
   comicBooks: Array<string>;
@@ -33,7 +39,7 @@ export interface CreatorModel extends Model<Creator> { }
  * Definition of a Publisher
  */
 export interface Publisher extends Document {
-  id: string;
+  _id: string;
   name: string;
   iconUrl: string;
   url: string;
@@ -50,7 +56,7 @@ export interface PublisherModel extends Model<Publisher> { }
  * Definitin of a User
  */
 export interface User extends Document {
-  id: string;
+  _id: string;
   username: string;
   password: string;
   pullList: Array<string>;

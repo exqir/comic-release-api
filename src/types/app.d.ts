@@ -1,4 +1,11 @@
-import { Option } from 'fp-ts/lib/Option'
+import {
+  ComicBookService,
+  ComicSeriesService,
+  CreatorService,
+  PublisherService,
+  PullListService,
+  UserService,
+} from "../services";
 
 export interface ApplicationConfig {
   port: number,
@@ -9,6 +16,12 @@ export interface ApplicationConfig {
 
 export interface ApplicationDependencies {
   logger?: Logger,
+  comicBookService: ComicBookService,
+  comicSeriesService: ComicSeriesService,
+  creatorService: CreatorService,
+  publisherService: PublisherService,
+  pullListService: PullListService,
+  userService: UserService,
   [name: string]: any,
 }
 

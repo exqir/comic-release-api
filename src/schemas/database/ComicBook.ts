@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
+import { ComicBookModel } from '../../types/mongo';
 
-export const ComicBook = model('ComicBook', new Schema({
+export const ComicBook: ComicBookModel = model('ComicBook', new Schema({
   title: String,
   issue: String,
   releaseDate: Date,
