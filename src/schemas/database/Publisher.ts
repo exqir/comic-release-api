@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 
-export const Publisher =  model('Publisher', new Schema({
+export const Publisher = model('Publisher', new Schema({
   _id: String,
   name: String,
   iconUrl: String,

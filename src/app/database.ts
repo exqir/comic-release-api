@@ -2,8 +2,7 @@ import * as mongoose from 'mongoose'
 import { Express } from 'express'
 import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither'
 import { Task } from 'fp-ts/lib/Task'
-import { Option, none, some } from 'fp-ts/lib/Option'
-import { ApplicationConfig, ApplicationDependencies, Logger } from '../types/app';
+import { ApplicationConfig, Logger, DependencyInjector } from '../types/app';
 
 interface DatabaseConfig {
   dbServer: string,
@@ -38,7 +37,7 @@ const connectToDb = (config: DatabaseConfig, retries: number, logger: Logger): v
     ))
 }
 
-export const setupDatabase = (config: ApplicationConfig, dependencies: ApplicationDependencies) => (app: Express): Express => {
+export const setupDatabase = (config: ApplicationConfig, dependencies: DependencyInjector) => (app: Express): Express => {
   const { logger } = dependencies.getDependencies()
   connectToDb(config, 5, logger)
 

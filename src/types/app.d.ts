@@ -12,8 +12,14 @@ export interface ApplicationDependencies {
   [name: string]: any,
 }
 
+export interface DependencyInjector {
+  getDependencies: () => ApplicationDependencies,
+  getDependency: (name: string) => any,
+  injectDependency: (name: string, dependency: any) => any,
+}
+
 export interface Logger {
-  log: (...args: any[]) => void,
-  info: (...args: any[]) => void,
-  error: (...args: any[]) => void,
+  log: (...args: Array<any>) => void,
+  info: (...args: Array<any>) => void,
+  error: (...args: Array<any>) => void,
 }

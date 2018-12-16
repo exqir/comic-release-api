@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import * as bcrypt from 'bcrypt'
 
-import { UserType } from '../../types/mongo'
+import { User as UserType } from '../../types/mongo'
 
 const schema = new Schema({
   username: { type: String, required: true },
@@ -24,7 +24,7 @@ schema.pre('save', async function hashPassword(next) {
 })
 
 // checking if password is valid
-schema.methods.isValidPassword = async function(password: string): Promise<boolean> {
+schema.methods.isValidPassword = async function (password: string): Promise<boolean> {
   return bcrypt.compare(password, this.password)
 }
 

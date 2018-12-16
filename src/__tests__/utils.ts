@@ -1,6 +1,5 @@
 import * as supertest from 'supertest'
 import { initializeApp } from '../app'
-import { getConfig } from '../app/config'
 import { createDependencyMap } from '../lib/dependencies'
 import { createLogger } from '../lib/logger'
 
@@ -9,7 +8,12 @@ import { createLogger } from '../lib/logger'
  */
 
 const app = initializeApp(
-  getConfig(),
+  {
+    port: 3000,
+    path: '/test/api/',
+    dbServer: 'localhost',
+    dbName: 'test',
+  },
   createDependencyMap(
     { logger: createLogger('TEST-LOGGER', 'de-DE') },
   )
