@@ -3,14 +3,12 @@ import { initializeApp } from '../app'
 import { createDependencyMap } from '../lib/dependencies'
 import { createLogger } from '../lib/logger'
 
-/**
- * Import globals from jest.
- */
+const apiPath = '/test/api/'
 
 const app = initializeApp(
   {
     port: 3000,
-    path: '/test/api/',
+    path: apiPath,
     dbServer: 'localhost',
     dbName: 'test',
   },
@@ -73,4 +71,19 @@ export function post(
     .then(res => {
       expect(res.body).toEqual(expectedPayload)
     })
+}
+
+export function graphQLquery(
+  payload: any,
+  expectedPayload: any,
+  expectedStatus?: number,
+  expectedType?: RegExp,
+) {
+  return post(
+    apiPath,
+    payload,
+    expectedPayload,
+    expectedStatus,
+    expectedType,
+  )
 }

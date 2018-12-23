@@ -1,12 +1,8 @@
-import { post, query, result } from './utils'
-import { getConfig } from '../app/config'
+import { graphQLquery, query, result } from './utils'
 
 describe('Basic GraphQL functionalities', () => {
-  const { path } = getConfig()
-
   test('should respond to `GraphQL` query', () => {
-    return post(
-      path,
+    return graphQLquery(
       query(`{ hello(name: "Malte") }`),
       result({ hello: "Hello Malte" }),
     )
