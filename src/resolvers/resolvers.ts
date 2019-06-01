@@ -1,4 +1,3 @@
-
 import RootQuery from './rootQuery'
 import RootMutation from './rootMutation'
 import { SearchResolver } from './search'

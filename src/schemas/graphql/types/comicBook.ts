@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express'
 import { DocumentNode } from 'graphql'
 
 import { GraphQLTypeFunction } from '../../../types/graphQL'
-import { Creator } from './creator' 
+import { Creator } from './creator'
 import { Publisher } from './publisher'
 import { ComicSeries } from './comicSeries'
 
@@ -19,4 +19,9 @@ const type: DocumentNode = gql`
     url: String!
   }
 `
-export const ComicBook:GraphQLTypeFunction = () => [type, Creator, Publisher, ComicSeries]
+export const ComicBook: GraphQLTypeFunction = () => [
+  type,
+  Creator,
+  Publisher,
+  ComicSeries,
+]

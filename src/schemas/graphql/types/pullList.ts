@@ -1,4 +1,3 @@
-
 import { gql } from 'apollo-server-express'
 import { DocumentNode } from 'graphql'
 
@@ -12,4 +11,4 @@ const type: DocumentNode = gql`
     list: [ComicSeries]
   }
 `
-export const PullList:GraphQLTypeFunction = () => [type, ComicSeries]
+export const PullList: GraphQLTypeFunction = () => [type, ComicSeries]

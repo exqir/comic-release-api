@@ -1,8 +1,11 @@
 import { Express } from 'express'
 import { ApolloServer, gql, Request } from 'apollo-server-express'
-import { ApplicationConfig, DependencyInjector } from '../types/app';
+import { ApplicationConfig, DependencyInjector } from '../types/app'
 
-export const setupGraphQL = (config: ApplicationConfig, dependencies: DependencyInjector) => (app: Express): Express => {
+export const setupGraphQL = (
+  config: ApplicationConfig,
+  dependencies: DependencyInjector,
+) => (app: Express): Express => {
   const { path } = config
 
   const server = new ApolloServer({
@@ -14,12 +17,12 @@ export const setupGraphQL = (config: ApplicationConfig, dependencies: Dependency
     resolvers: {
       Query: {
         hello: (_, { name }) => `Hello ${name}`,
-      }
+      },
     },
     context: ({ req }: { req: Request }) => ({
       req,
       di: dependencies,
-    })
+    }),
   })
 
   server.applyMiddleware({ app, path })

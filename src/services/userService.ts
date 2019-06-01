@@ -1,5 +1,5 @@
-import { UserModel, User } from "../types/mongo";
-import { DataService } from "../types/services";
+import { UserModel, User } from '../types/mongo'
+import { DataService } from '../types/services'
 
 export interface UserService extends DataService<User> {
   verifyUser: (username: string, password: string) => Promise<User | Error>
@@ -10,9 +10,13 @@ export function createUserService(Model: UserModel): UserService {
     return Model.findOne({ username }).exec()
   }
 
-  async function verifyUser(username: string, password: string): Promise<User | Error> {
+  async function verifyUser(
+    username: string,
+    password: string,
+  ): Promise<User | Error> {
     const user = await getUserByName(username)
-    if (!await user.isValidPassword(password)) throw new Error('invalid password or username')
+    if (!(await user.isValidPassword(password)))
+      throw new Error('invalid password or username')
     return user
   }
 

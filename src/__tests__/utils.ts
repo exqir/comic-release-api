@@ -10,15 +10,18 @@ const app = initializeApp(
     port: 3000,
     path: apiPath,
     dbServer: 'localhost',
+    dbPort: 27017,
     dbName: 'test',
   },
-  createDependencyMap(
-    { logger: createLogger('TEST-LOGGER', 'de-DE') },
-  )
+  createDependencyMap({ logger: createLogger('TEST-LOGGER', 'de-DE') }),
 )
 
-export function query(query: string) { return { query } }
-export function result(data: any) { return { data } }
+export function query(query: string) {
+  return { query }
+}
+export function result(data: any) {
+  return { data }
+}
 
 export function checkHeader(
   path: string,
@@ -79,11 +82,5 @@ export function graphQLquery(
   expectedStatus?: number,
   expectedType?: RegExp,
 ) {
-  return post(
-    apiPath,
-    payload,
-    expectedPayload,
-    expectedStatus,
-    expectedType,
-  )
+  return post(apiPath, payload, expectedPayload, expectedStatus, expectedType)
 }

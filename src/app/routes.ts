@@ -4,7 +4,6 @@ import * as authenticationController from '../controller/authentication'
 import * as healthController from '../controller/health'
 import * as errorController from '../controller/error'
 
-
 export const setupRoutes = (app: Express): Express => {
   /**
    * ROUTES SETUP

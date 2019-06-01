@@ -1,13 +1,13 @@
 import { get, options, checkHeader } from './utils'
 
 describe('Basic server functionalities', () => {
-
   test('should set `Access-Control-Allow-Origin` header', () => {
     return checkHeader('/.status', 'Access-Control-Allow-Origin', '*')
   })
 
   test('should set `Access-Control-Allow-Headers` header', () => {
-    return checkHeader('/.status',
+    return checkHeader(
+      '/.status',
       'Access-Control-Allow-Headers',
       'Content-Type, Authorization, Content-Length, X-Requested-With',
     )
@@ -18,10 +18,14 @@ describe('Basic server functionalities', () => {
   })
 
   test('should provide a status route', () => {
-    return get('/.status', { status: "OK" })
+    return get('/.status', { status: 'OK' })
   })
 
   test('should provide error message for unknown path', () => {
-    return get('/foo', { error: 404, message: "Sorry, we don\'t know that path." }, 404)
+    return get(
+      '/foo',
+      { error: 404, message: "Sorry, we don't know that path." },
+      404,
+    )
   })
 })

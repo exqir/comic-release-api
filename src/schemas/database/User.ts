@@ -3,13 +3,16 @@ import * as bcrypt from 'bcrypt'
 
 import { User as UserType, UserModel } from '../../types/mongo'
 
-const schema = new Schema({
-  username: { type: String, required: true },
-  password: { type: String, required: true },
-  pullList: [Schema.Types.ObjectId],
-  pulled: [Schema.Types.ObjectId],
-  read: [Schema.Types.ObjectId],
-}, { collection: 'users' })
+const schema = new Schema(
+  {
+    username: { type: String, required: true },
+    password: { type: String, required: true },
+    pullList: [Schema.Types.ObjectId],
+    pulled: [Schema.Types.ObjectId],
+    read: [Schema.Types.ObjectId],
+  },
+  { collection: 'users' },
+)
 
 schema.pre('save', async function hashPassword(next) {
   try {
@@ -24,7 +27,9 @@ schema.pre('save', async function hashPassword(next) {
 })
 
 // checking if password is valid
-schema.methods.isValidPassword = async function (password: string): Promise<boolean> {
+schema.methods.isValidPassword = async function(
+  password: string,
+): Promise<boolean> {
   return bcrypt.compare(password, this.password)
 }
 

@@ -11,10 +11,10 @@ const type: DocumentNode = gql`
     name: String!
     iconUrl: String
     url: String
-    basePath: String,
-    seriesPath: String,
-    searchPath: String,
-    searchPathSeries: String,
+    basePath: String
+    seriesPath: String
+    searchPath: String
+    searchPathSeries: String
     series: [ComicSeries]
   }
 `
@@ -30,4 +30,4 @@ const input: DocumentNode = gql`
     seriesPath: String
   }
 `
-export const Publisher:GraphQLTypeFunction = () => [type, input, ComicSeries]
+export const Publisher: GraphQLTypeFunction = () => [type, input, ComicSeries]

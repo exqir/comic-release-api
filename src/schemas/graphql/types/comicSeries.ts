@@ -17,4 +17,8 @@ const type: DocumentNode = gql`
     issues: [Comic]
   }
 `
-export const ComicSeries:GraphQLTypeFunction = () => [type, Publisher, ComicBook]
+export const ComicSeries: GraphQLTypeFunction = () => [
+  type,
+  Publisher,
+  ComicBook,
+]

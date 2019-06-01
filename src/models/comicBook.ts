@@ -6,26 +6,27 @@ import { Task } from 'fp-ts/lib/Task'
 import { left, right } from 'fp-ts/lib/Either'
 
 interface ComicBook {
-  title: string;
-  issue: string;
-  releaseDate: Date;
-  creators: string[];
-  series: string;
-  publisher: string;
-  coverUrl: string;
-  url: string;
+  title: string
+  issue: string
+  releaseDate: Date
+  creators: string[]
+  series: string
+  publisher: string
+  coverUrl: string
+  url: string
 }
 
 export interface ComicBookDocument extends ComicBook {
-  _id: string;
+  _id: string
 }
 
 const collectionName = 'comicBooks'
 
-const opsLens = lens<InsertOneWriteOpResult, ComicBookDocument[], InsertOneWriteOpResult>(
-  o => o.ops,
-  (val, o) => ({ ...o, ops: val }),
-)
+const opsLens = lens<
+  InsertOneWriteOpResult,
+  ComicBookDocument[],
+  InsertOneWriteOpResult
+>(o => o.ops, (val, o) => ({ ...o, ops: val }))
 
 function createWithDefaults(initialObject: ComicBook): ComicBook {
   return {
@@ -42,13 +43,26 @@ function getDocumentFromInsert(i: InsertOneWriteOpResult): ComicBookDocument {
   return head(view<InsertOneWriteOpResult, ComicBookDocument[]>(opsLens)(i))
 }
 
-function save(cb: ComicBook): ReaderTaskEither<Db, MongoError, InsertOneWriteOpResult> {
-  return new ReaderTaskEither(db => new TaskEither(
-    new Task(() => db.collection(collectionName).insertOne(cb).then(res => right(res)).catch(err => left(err)))
-  ))
+function save(
+  cb: ComicBook,
+): ReaderTaskEither<Db, MongoError, InsertOneWriteOpResult> {
+  return new ReaderTaskEither(
+    db =>
+      new TaskEither(
+        new Task(() =>
+          db
+            .collection(collectionName)
+            .insertOne(cb)
+            .then(res => right(res))
+            .catch(err => left(err)),
+        ),
+      ),
+  )
 }
 
-function saveAndReturnNewDocument(cb: ComicBook): ReaderTaskEither<Db, MongoError, ComicBookDocument> {
+function saveAndReturnNewDocument(
+  cb: ComicBook,
+): ReaderTaskEither<Db, MongoError, ComicBookDocument> {
   return save(cb).map(getDocumentFromInsert)
 }
 

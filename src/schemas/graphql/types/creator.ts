@@ -12,4 +12,4 @@ const type: DocumentNode = gql`
     series: [Series]
   }
 `
-export const Creator:GraphQLTypeFunction = () => [type, ComicSeries]
+export const Creator: GraphQLTypeFunction = () => [type, ComicSeries]

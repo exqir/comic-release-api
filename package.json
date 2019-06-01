@@ -9,6 +9,7 @@
     "build:dev": "tsc -w",
     "build": "tsc",
     "test:functional": "jest",
+    "format": "prettier --write 'src/**/*.ts'",
     "start": "babel index.js",
     "pretest": "npm run test:server",
     "test": "mocha -r babel-polyfill  --compilers js:babel-core/register --colors ./test/index.js",
@@ -48,6 +49,8 @@
     "@types/passport-local": "^1.0.33",
     "@types/ramda": "^0.25.39",
     "@types/supertest": "^2.0.6",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
     "concurrently": "^4.0.1",
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
@@ -55,9 +58,9 @@
     "jest": "^23.6.0",
     "mongodb-memory-server": "^4.2.1",
     "nodemon": "^1.18.4",
+    "prettier": "^1.17.1",
     "supertest": "^3.3.0",
     "ts-jest": "^23.1.4",
-    "typescript": "^3.0.3",
-    "typescript-eslint-parser": "^19.0.2"
+    "typescript": "^3.0.3"
   }
 }

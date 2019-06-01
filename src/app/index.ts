@@ -8,7 +8,10 @@ import { setupAuthentication } from './authentication'
 import { setupGraphQL } from './graphQLService'
 import { setupRoutes } from './routes'
 
-export function initializeApp(config: ApplicationConfig, dependencies: DependencyInjector): express.Express {
+export function initializeApp(
+  config: ApplicationConfig,
+  dependencies: DependencyInjector,
+): express.Express {
   return compose(
     setupRoutes,
     setupGraphQL(config, dependencies),

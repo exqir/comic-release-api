@@ -1,11 +1,14 @@
 import { assoc, concat } from 'ramda'
 
-import { GraphQLResolver } from "../types/graphQL";
-import { Search, Publisher } from "../types/mongo";
+import { GraphQLResolver } from '../types/graphQL'
+import { Search, Publisher } from '../types/mongo'
 
 interface SearchRootQuery {
   getSearch: GraphQLResolver<Search, { q: string }>
-  getSearchByPublishers: GraphQLResolver<Search, { q: string, publishers: string[] }>
+  getSearchByPublishers: GraphQLResolver<
+    Search,
+    { q: string; publishers: string[] }
+  >
 }
 
 interface SearchResolver {
@@ -20,29 +23,30 @@ export const SearchRoot: SearchRootQuery = {
     const publishers = await publisherService.getAll()
     return collectResults(publishers, q)
   },
-  getSearchByPublishers: async (_, { q, publishers: publisherList }, { di }) => {
+  getSearchByPublishers: async (
+    _,
+    { q, publishers: publisherList },
+    { di },
+  ) => {
     const { publisherService } = di.getDependencies()
     const publishers = await publisherService.getByList(publisherList)
     return collectResults(publishers, q)
   },
-};
+}
 
 export const SearchResolver: SearchResolver = {
   Search: {
     publisher: async ({ publisher }, _, { di }) => {
-      const { publisherService } = di.getDependencies();
+      const { publisherService } = di.getDependencies()
       return publisherService.getById(publisher)
-    }
+    },
   },
 }
 
 async function collectResults(publishers: Publisher[], q: string) {
   return publishers.reduce(async (res: any, p: Publisher) => {
     const { results } = await scrap('search', p, q)
-    return concat(
-      res,
-      results.map(r => assoc('publisher', p._id, r))
-    )
+    return concat(res, results.map(r => assoc('publisher', p._id, r)))
   }, [])
 }
 

@@ -1,14 +1,14 @@
-import { GraphQLResolver } from '../types/graphQL';
-import { ComicBook } from '../types/mongo';
+import { GraphQLResolver } from '../types/graphQL'
+import { ComicBook } from '../types/mongo'
 
 interface ComicRootQuery {
-  getComicBook: GraphQLResolver<ComicBook, { id: string }>;
+  getComicBook: GraphQLResolver<ComicBook, { id: string }>
 }
 
 interface ComicResolver {
   Comic: {
-    publisher: GraphQLResolver<ComicBook, any>;
-    series: GraphQLResolver<ComicBook, any>;
+    publisher: GraphQLResolver<ComicBook, any>
+    series: GraphQLResolver<ComicBook, any>
   }
 }
 
@@ -29,5 +29,5 @@ export const ComicResolver: ComicResolver = {
       const { comicSeriesService } = di.getDependencies()
       return comicSeriesService.getById(series)
     },
-  }
+  },
 }

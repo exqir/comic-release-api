@@ -1,10 +1,10 @@
 import { gql } from 'apollo-server-express'
 
-import { GraphQLTypeFunction } from '../../types/graphQL';
+import { GraphQLTypeFunction } from '../../types/graphQL'
 import { RootQuery } from './types/rootQuery'
 import { RootMutation } from './types/rootMutation'
 
-export const Schema:GraphQLTypeFunction = () => [
+export const Schema: GraphQLTypeFunction = () => [
   gql`
     schema {
       query: RootQuery
@@ -12,5 +12,5 @@ export const Schema:GraphQLTypeFunction = () => [
     }
   `,
   RootQuery,
-  RootMutation
+  RootMutation,
 ]

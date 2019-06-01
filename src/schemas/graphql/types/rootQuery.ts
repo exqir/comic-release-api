@@ -24,5 +24,5 @@ export const RootQuery: GraphQLTypeFunction = () => [
   PullList,
   Publisher,
   ComicSeries,
-  ComicBook
+  ComicBook,
 ]

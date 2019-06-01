@@ -1,7 +1,7 @@
-import { CreatorModel, Creator } from "../types/mongo";
-import { DataService } from "../types/services";
+import { CreatorModel, Creator } from '../types/mongo'
+import { DataService } from '../types/services'
 
-export interface CreatorService extends DataService<Creator> { }
+export interface CreatorService extends DataService<Creator> {}
 
 export function createCreatorService(Model: CreatorModel): CreatorService {
   return {

@@ -6,16 +6,20 @@ import { Publisher } from './publisher'
 
 // @TODO: import and use PublisherInput
 
-export const RootMutation:GraphQLTypeFunction = () => [
+export const RootMutation: GraphQLTypeFunction = () => [
   gql`
     type RootMutation {
       createPullList(owner: String!): PullList!
-      pullSeries(owner: String!, publisher: String!, seriesUrl: String!): PullList!
+      pullSeries(
+        owner: String!
+        publisher: String!
+        seriesUrl: String!
+      ): PullList!
       removeSeries(owner: String!, series: ID!): PullList!
       login(username: String!, password: String!): String!
       logout: Boolean!
     }
   `,
   PullList,
-  Publisher
+  Publisher,
 ]

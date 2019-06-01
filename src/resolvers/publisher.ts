@@ -1,14 +1,14 @@
-import { Publisher } from '../types/mongo';
-import { GraphQLResolver } from '../types/graphQL';
+import { Publisher } from '../types/mongo'
+import { GraphQLResolver } from '../types/graphQL'
 
 interface PublisherRootQuery {
   getPublisher: GraphQLResolver<Publisher, { name: string }>
-  getPublishers: GraphQLResolver<Publisher, { names: string[] }>;
+  getPublishers: GraphQLResolver<Publisher, { names: string[] }>
 }
 
 interface PublisherResolver {
   Publisher: {
-    series: GraphQLResolver<Publisher, any>;
+    series: GraphQLResolver<Publisher, any>
   }
 }
 
@@ -28,6 +28,6 @@ export const PublisherResolver: PublisherResolver = {
     series: async ({ series }, _, { di }) => {
       const { comicSeriesService } = di.getDependencies()
       comicSeriesService.getByList(series)
-    }
-  }
+    },
+  },
 }
