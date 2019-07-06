@@ -10,6 +10,7 @@
     "build": "tsc",
     "test:functional": "jest",
     "format": "prettier --write 'src/**/*.ts'",
+    "postinstall": "npm link 'mongad'",
     "start": "babel index.js",
     "pretest": "npm run test:server",
     "test": "mocha -r babel-polyfill  --compilers js:babel-core/register --colors ./test/index.js",
@@ -32,18 +33,17 @@
     "fp-ts": "^1.14.4",
     "graphql": "^14.0.2",
     "graphql-tools": "^3.1.1",
-    "mongodb": "^3.1.10",
+    "mongodb": "^3.2.3",
     "mongoose": "^5.2.13",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "ramda": "^0.25.0",
-    "mongad": "*"
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^2.0.0",
     "@types/express-session": "^1.15.11",
     "@types/jest": "^23.3.2",
-    "@types/mongodb": "^3.1.17",
+    "@types/mongodb": "^3.1.23",
     "@types/mongoose": "^5.2.11",
     "@types/passport": "^0.4.6",
     "@types/passport-local": "^1.0.33",
@@ -56,11 +56,11 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "jest": "^23.6.0",
-    "mongodb-memory-server": "^4.2.1",
+    "mongodb-memory-server": "^4.2.2",
     "nodemon": "^1.18.4",
     "prettier": "^1.17.1",
     "supertest": "^3.3.0",
     "ts-jest": "^23.1.4",
-    "typescript": "^3.0.3"
+    "typescript": "^3.5.2"
   }
 }

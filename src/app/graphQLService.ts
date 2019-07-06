@@ -22,6 +22,7 @@ export const setupGraphQL = (
     context: ({ req }: { req: Request }) => ({
       req,
       di: dependencies,
+      config
     }),
   })
 

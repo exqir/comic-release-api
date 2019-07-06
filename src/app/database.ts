@@ -1,33 +1,34 @@
 import { Express } from 'express'
 import { connect } from 'mongad'
+import { some, none } from 'fp-ts/lib/Option'
 import { ApplicationConfig, Logger, DependencyInjector } from '../types/app'
 
-const connectToDb = (
+const connectToDb = async (
   config: ApplicationConfig,
-  retries: number,
   logger: Logger,
-): void => {
-  connect({ server: config.dbServer, port: config.dbPort })
-    .run()
-    .then(E =>
-      E.fold(
-        err => {
-          logger.error(err.message)
-          if (retries > 0) connectToDb(config, retries - 1, logger)
-        },
-        _ => {
-          logger.log(`Connected to ${config.dbName} on ${config.dbServer}`)
-        },
-      ),
+) => {
+  return connect({ server: config.dbServer, port: config.dbPort })
+    .fold(
+      (err) => {
+        logger.error(err.message)
+        return none
+      },
+      client => {
+        logger.log(`Connected to ${config.dbServer} on ${config.dbPort}`)
+        return some(client)
+      },
     )
+    .run()
 }
 
 export const setupDatabase = (
   config: ApplicationConfig,
   dependencies: DependencyInjector,
-) => (app: Express): Express => {
+) => (app: Express) => {
   const { logger } = dependencies.getDependencies()
-  connectToDb(config, 5, logger)
+  connectToDb(config, logger).then(
+    client => dependencies.injectDependency('client', client)
+  )
 
   return app
 }

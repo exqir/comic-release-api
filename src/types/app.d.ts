@@ -6,6 +6,8 @@ import {
   PullListService,
   UserService,
 } from '../services'
+import { MongoClient } from 'mongodb';
+import { Option } from 'fp-ts/lib/Option'
 
 export interface ApplicationConfig {
   port: number;
@@ -23,12 +25,13 @@ export interface ApplicationDependencies {
   publisherService: PublisherService;
   pullListService: PullListService;
   userService: UserService;
+  client?: Option<MongoClient>;
   [name: string]: any;
 }
 
 export interface DependencyInjector {
   getDependencies: () => ApplicationDependencies;
-  getDependency: (name: string) => any;
+  getDependency: (name: 'logger' | 'client' | string) => any;
   injectDependency: (name: string, dependency: any) => any;
 }
 

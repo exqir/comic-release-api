@@ -7,8 +7,8 @@ export function createDependencyMap(
 
   return {
     getDependencies: () => dependencies,
-    getDependency: (name: string): any => dependencies[name],
-    injectDependency: (name: string, dependency: any): any => {
+    getDependency: (name) => dependencies[name],
+    injectDependency: (name, dependency) => {
       dependencies[name] = dependency
       return dependencies
     },
