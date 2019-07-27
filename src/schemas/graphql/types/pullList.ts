@@ -1,14 +1,24 @@
 import { gql } from 'apollo-server-express'
-import { DocumentNode } from 'graphql'
 
-import { GraphQLTypeFunction } from '../../../types/graphQL'
-import { ComicSeries } from './comicSeries'
+export const PullList = gql`
+  extend type Query {
+    getPullLists: [PullList!]!
+    getPullList(owner: String!): PullList
+  }
 
-const type: DocumentNode = gql`
+  extend type Mutation {
+    createPullList(owner: String!): PullList!
+    pullSeries(
+      owner: String!
+      publisher: String!
+      seriesUrl: String!
+    ): PullList!
+    removeSeries(owner: String!, series: ID!): PullList!
+  }
+
   type PullList {
     _id: ID!
     owner: String!
     list: [ComicSeries]
   }
 `
-export const PullList: GraphQLTypeFunction = () => [type, ComicSeries]

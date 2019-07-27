@@ -1,23 +1,28 @@
 import { gql } from 'apollo-server-express'
 
-import { GraphQLTypeFunction } from '../../types/graphQL'
-import { RootQuery } from './types/rootQuery'
-import { RootMutation } from './types/rootMutation'
+import { ComicBook } from './types/comicBook'
+import { ComicSeries } from './types/comicSeries'
+import { Creator } from './types/creator'
+import { Publisher } from './types/publisher'
+import { PullList } from './types/pullList'
+import { Search } from './types/search'
 
-export const Schema: GraphQLTypeFunction = () => [
-  gql`
-    schema {
-      query: RootQuery
-      mutation: RootMutation
-    }
-  `,
-  RootQuery,
-  RootMutation,
-]
-
-
-export const typeDefs = gql`
+const Query = gql`
   type Query {
     _empty: String
   }
+
+  type Mutation {
+    _empty: String
+  }
 `
+
+export const typeDefs = [
+  Query,
+  ComicBook,
+  ComicSeries,
+  Creator,
+  Publisher,
+  PullList,
+  Search,
+]

@@ -1,6 +1,8 @@
 import { Express } from 'express'
-import { ApolloServer, gql, Request } from 'apollo-server-express'
+import { ApolloServer, Request } from 'apollo-server-express'
 import { ApplicationConfig, ApplicationDependencies } from '../types/app'
+import { resolvers } from '../resolvers/resolvers'
+import { typeDefs } from '../schemas/graphql/schema'
 
 export const setupGraphQL = (
   config: ApplicationConfig,
@@ -9,16 +11,8 @@ export const setupGraphQL = (
   const { path } = config
 
   const server = new ApolloServer({
-    typeDefs: gql`
-      type Query {
-        hello(name: String!): String
-      }
-    `,
-    resolvers: {
-      Query: {
-        hello: (_, { name }) => `Hello ${name}`,
-      },
-    },
+    typeDefs,
+    resolvers,
     context: ({ req }: { req: Request }) => ({
       req,
       ...dependencies,

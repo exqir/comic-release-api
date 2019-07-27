@@ -1,11 +1,10 @@
 import { gql } from 'apollo-server-express'
-import { DocumentNode } from 'graphql'
 
-import { GraphQLTypeFunction } from '../../../types/graphQL'
-import { Publisher } from './publisher'
-import { ComicBook } from './comicBook'
+export const ComicSeries = gql`
+  extend type Query {
+    getComicSeries(id: ID!): ComicSeries
+  }
 
-const type: DocumentNode = gql`
   type ComicSeries {
     _id: ID!
     title: String!
@@ -13,12 +12,7 @@ const type: DocumentNode = gql`
     collectionsUrl: String
     issuesUrl: String
     publisher: Publisher
-    collections: [Comic]
-    issues: [Comic]
+    collections: [ComicBook]
+    issues: [ComicBook]
   }
 `
-export const ComicSeries: GraphQLTypeFunction = () => [
-  type,
-  Publisher,
-  ComicBook,
-]
