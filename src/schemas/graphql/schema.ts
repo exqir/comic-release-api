@@ -14,3 +14,10 @@ export const Schema: GraphQLTypeFunction = () => [
   RootQuery,
   RootMutation,
 ]
+
+
+export const typeDefs = gql`
+  type Query {
+    _empty: String
+  }
+`

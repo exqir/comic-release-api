@@ -1,7 +1,7 @@
-import { getDb } from 'mongad'
 import { Publisher } from '../types/mongo'
 import { GraphQLResolver } from '../types/graphQL'
 import { getOnePublisher, getManyPublishers } from '../models/publisher'
+import { getManyComicSeries } from '../models/comicSeries'
 
 interface PublisherRootQuery {
   getPublisher: GraphQLResolver<Publisher, { name: string }>;
@@ -15,27 +15,18 @@ interface PublisherResolver {
 }
 
 export const PublisherRoot: PublisherRootQuery = {
-  getPublisher: async (_, { name }, { di, config }) => {
-    const { client, logger } = di.getDependencies()
-    return client.map(async mg => {
-      const db = getDb(config.dbName)(mg)
-      return getOnePublisher(logger, db, name)
-    }).toNullable()
-  },
-  getPublishers: async (_, { names }, { di, config }) => {
-    const { client, logger } = di.getDependencies()
-    return client.map(async mg => {
-      const db = getDb(config.dbName)(mg)
-      return getManyPublishers(logger, db, names)
-    }).toNullable()
-  },
+  getPublisher: (_, { name }, { dependencies: { db, logger } }) => db
+    .map(getOnePublisher(logger, name))
+    .toNullable(),
+  getPublishers: async (_, { names }, { dependencies: { db, logger } }) => db
+    .map(getManyPublishers(logger, names))
+    .toNullable(),
 }
 
 export const PublisherResolver: PublisherResolver = {
   Publisher: {
-    series: async ({ series }, _, { di }) => {
-      const { comicSeriesService } = di.getDependencies()
-      comicSeriesService.getByList(series)
-    },
+    series: async ({ series }, _, { dependencies: { db, logger } }) => db
+      .map(getManyComicSeries(logger, series))
+      .toNullable(),
   },
 }

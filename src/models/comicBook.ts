@@ -1,72 +1,35 @@
-import { Db, InsertOneWriteOpResult, MongoError } from 'mongodb'
-import { head, lens, view } from 'ramda'
-import { ReaderTaskEither } from 'fp-ts/lib/ReaderTaskEither'
-import { TaskEither } from 'fp-ts/lib/TaskEither'
-import { Task } from 'fp-ts/lib/Task'
-import { left, right } from 'fp-ts/lib/Either'
+import { FilterQuery, Db, MongoError } from 'mongodb'
+import { findOne, findMany, insertOne } from 'mongad'
+import { ComicBook } from '../types/mongo'
+import { Logger } from '../types/app';
 
-interface ComicBook {
-  title: string
-  issue: string
-  releaseDate: Date
-  creators: string[]
-  series: string
-  publisher: string
-  coverUrl: string
-  url: string
+export const collection = 'comicBooks'
+
+export const findOneComicBook = (query: FilterQuery<ComicBook>) => findOne(collection, query)
+export const findManyComicBooks = (query: FilterQuery<ComicBook>) => findMany(collection, query)
+export const insertOneComicBook = (comicBook: ComicBook) => insertOne(collection, comicBook)
+
+const logError = (logger: Logger) => (err: MongoError): null => {
+  logger.error(err.message)
+  return null
 }
 
-export interface ComicBookDocument extends ComicBook {
-  _id: string
-}
+/**
+ * TODO: Abstracting this seems to crash TypeScripts
+ * const func = <T>(reader: ReaderTaskEither<Db, MongoError, T>, errorFn: (MongoError) => null) =>
+ * (db: Db): Promise<T | null> => reader.run(db).then(e => e.mapLeft<null>(errorFn).value)
+ */
+export const getOneComicBook = (logger: Logger, id: string) => (db: Db) => findOne<ComicBook>(collection, { _id: id })
+  .mapLeft(logError(logger))
+  .run(db)
+  .then(e => e.value)
 
-const collectionName = 'comicBooks'
+export const getManyComicBooks = (logger: Logger, ids: string[]) => (db: Db) => findMany<ComicBook>(collection, { _id: { $in: ids } })
+  .mapLeft(logError(logger))
+  .run(db)
+  .then(e => e.value)
 
-const opsLens = lens<
-  InsertOneWriteOpResult,
-  ComicBookDocument[],
-  InsertOneWriteOpResult
->(o => o.ops, (val, o) => ({ ...o, ops: val }))
-
-function createWithDefaults(initialObject: ComicBook): ComicBook {
-  return {
-    ...initialObject,
-    creators: initialObject.creators || [],
-  }
-}
-
-function getDocumentFromInsert(i: InsertOneWriteOpResult): ComicBookDocument {
-  // return compose<ComicBookDocument[], ComicBookDocument>(
-  //   head,
-  //   view<InsertOneWriteOpResult, ComicBookDocument[]>(opsLens, i),
-  // )
-  return head(view<InsertOneWriteOpResult, ComicBookDocument[]>(opsLens)(i))
-}
-
-function save(
-  cb: ComicBook,
-): ReaderTaskEither<Db, MongoError, InsertOneWriteOpResult> {
-  return new ReaderTaskEither(
-    db =>
-      new TaskEither(
-        new Task(() =>
-          db
-            .collection(collectionName)
-            .insertOne(cb)
-            .then(res => right(res))
-            .catch(err => left(err)),
-        ),
-      ),
-  )
-}
-
-function saveAndReturnNewDocument(
-  cb: ComicBook,
-): ReaderTaskEither<Db, MongoError, ComicBookDocument> {
-  return save(cb).map(getDocumentFromInsert)
-}
-
-export const ComicBook = {
-  create: createWithDefaults,
-  save: saveAndReturnNewDocument,
-}
+export const createComicBook = (logger: Logger, comicBook: ComicBook) => (db: Db) => insertOne(collection, comicBook)
+  .mapLeft(logError(logger))
+  .run(db)
+  .then(e => e.value)

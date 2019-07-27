@@ -1,15 +1,14 @@
-import { Express } from 'express'
-import { connect } from 'mongad'
+import { connect, getDb } from 'mongad'
 import { some, none } from 'fp-ts/lib/Option'
-import { ApplicationConfig, Logger, DependencyInjector } from '../types/app'
+import { ApplicationConfig, Logger, ApplicationDependencies } from '../types/app'
 
-const connectToDb = async (
+const connectToDb = (
   config: ApplicationConfig,
   logger: Logger,
 ) => {
   return connect({ server: config.dbServer, port: config.dbPort })
     .fold(
-      (err) => {
+      err => {
         logger.error(err.message)
         return none
       },
@@ -18,17 +17,13 @@ const connectToDb = async (
         return some(client)
       },
     )
-    .run()
 }
 
 export const setupDatabase = (
   config: ApplicationConfig,
-  dependencies: DependencyInjector,
-) => (app: Express) => {
-  const { logger } = dependencies.getDependencies()
-  connectToDb(config, logger).then(
-    client => dependencies.injectDependency('client', client)
+  { logger }: ApplicationDependencies,
+) => connectToDb(config, logger)
+  .run()
+  .then(
+    client => client.map(getDb(config.dbName))
   )
-
-  return app
-}

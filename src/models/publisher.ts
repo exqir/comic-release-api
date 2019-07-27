@@ -1,12 +1,9 @@
-import { FilterQuery, Db, MongoError } from 'mongodb'
+import { Db, MongoError } from 'mongodb'
 import { findOne, findMany } from 'mongad'
 import { Publisher } from '../types/mongo'
 import { Logger } from '../types/app';
 
 export const collection = 'publishers'
-
-export const findOnePublisher = (query: FilterQuery<Publisher>) => findOne(collection, query)
-export const findManyPublishers = (query: FilterQuery<Publisher>) => findMany(collection, query)
 
 const logError = (logger: Logger) => (err: MongoError): null => {
   logger.error(err.message)
@@ -18,10 +15,12 @@ const logError = (logger: Logger) => (err: MongoError): null => {
  * const func = <T>(reader: ReaderTaskEither<Db, MongoError, T>, errorFn: (MongoError) => null) =>
  * (db: Db): Promise<T | null> => reader.run(db).then(e => e.mapLeft<null>(errorFn).value)
  */
-export const getOnePublisher = async (logger: Logger, db: Db, name: string) => await findOnePublisher({ _id: name })
+export const getOnePublisher = (logger: Logger, name: string) => (db: Db) => findOne<Publisher>(collection, { _id: name })
+  .mapLeft(logError(logger))
   .run(db)
-  .then(e => e.mapLeft(logError(logger)).value)
+  .then(e => e.value)
 
-export const getManyPublishers = async (logger: Logger, db: Db, names: string[]) => await findManyPublishers({ _id: { $in: names } })
+export const getManyPublishers = (logger: Logger, names: string[]) => (db: Db) => findMany<Publisher>(collection, { _id: { $in: names } })
+  .mapLeft(logError(logger))
   .run(db)
-  .then(e => e.mapLeft(logError(logger)).value)
+  .then(e => e.value)

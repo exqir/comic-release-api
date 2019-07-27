@@ -1,6 +1,6 @@
 import { DocumentNode, GraphQLFieldResolver } from 'graphql'
 import { Request } from 'express'
-import { DependencyInjector, ApplicationConfig } from './app'
+import { ApplicationConfig, ApplicationDependencies } from './app'
 
 /**
  * A function returning an Array of DocumentNodes, describing a GraphQL type.
@@ -14,7 +14,7 @@ export interface GraphQLTypeFunction {
  */
 export interface GraphQLContext {
   req: Request;
-  di: DependencyInjector;
+  dependencies: ApplicationDependencies;
   config: ApplicationConfig;
 }
 

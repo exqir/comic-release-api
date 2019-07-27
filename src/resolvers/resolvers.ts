@@ -1,17 +1,17 @@
-import RootQuery from './rootQuery'
-import RootMutation from './rootMutation'
+import { RootQuery } from './rootQuery'
+import { RootMutation } from './rootMutation'
 import { SearchResolver } from './search'
 import { PublisherResolver } from './publisher'
 import { PullListResolver } from './pulllist'
-import { SeriesResolver } from './series'
-import { ComicResolver } from './comic'
+import { ComicSeriesResolver } from './comicSeries'
+import { ComicResolver } from './comicBook'
 
-export const resolvers: any = {
+export const resolvers = {
   ...RootQuery,
   ...RootMutation,
   ...SearchResolver,
   ...PublisherResolver,
   ...PullListResolver,
-  ...SeriesResolver,
+  ...ComicSeriesResolver,
   ...ComicResolver,
 }

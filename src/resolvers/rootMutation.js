@@ -1,13 +1,7 @@
-'use strict'
-
 import { PullListMutation } from './pulllist'
 import { UserMutation } from './user'
 
-const RootMutation = {
+export const RootMutation = {
   ...PullListMutation,
   ...UserMutation,
-}
-
-module.exports = {
-  RootMutation
 }

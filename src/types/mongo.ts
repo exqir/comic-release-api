@@ -1,4 +1,4 @@
-import { Document, Model } from 'mongoose'
+import { ObjectID } from 'mongodb'
 
 export interface Search {
   title: string;
@@ -9,8 +9,8 @@ export interface Search {
 /**
  * Definition of a ComicBook
  */
-export interface ComicBook extends Document {
-  _id: string;
+export interface ComicBook {
+  _id: ObjectID;
   title: string;
   issue: string;
   releaseDate: Date;
@@ -21,25 +21,21 @@ export interface ComicBook extends Document {
   url: string;
 }
 
-export interface ComicBookModel extends Model<ComicBook> { }
-
 /**
  * Definition of a Creator
  */
-export interface Creator extends Document {
-  _id: string;
+export interface Creator {
+  _id: ObjectID;
   firstname: string;
   lastname: string;
   comicBooks: string[];
 }
 
-export interface CreatorModel extends Model<Creator> { }
-
 /**
  * Definition of a Publisher
  */
-export interface Publisher extends Document {
-  _id: string;
+export interface Publisher {
+  _id: ObjectID;
   name: string;
   iconUrl: string;
   url: string;
@@ -50,13 +46,11 @@ export interface Publisher extends Document {
   series: string[];
 }
 
-export interface PublisherModel extends Model<Publisher> { }
-
 /**
  * Definitin of a User
  */
-export interface User extends Document {
-  _id: string;
+export interface User {
+  _id: ObjectID;
   username: string;
   password: string;
   pullList: string[];
@@ -65,22 +59,18 @@ export interface User extends Document {
   isValidPassword: (password: string) => Promise<boolean>;
 }
 
-export interface UserModel extends Model<User> { }
-
 /**
  * Definition of a PullList
  */
-export interface PullList extends Document {
+export interface PullList {
   owner: string;
   list: string[];
 }
 
-export interface PullListModel extends Model<PullList> { }
-
 /**
  * Definition of a ComicSeries
  */
-export interface ComicSeries extends Document {
+export interface ComicSeries {
   title: string;
   url: string;
   collectionUrl: string;
@@ -89,5 +79,3 @@ export interface ComicSeries extends Document {
   collections: string[];
   comicBooks: string[];
 }
-
-export interface ComicSeriesModel extends Model<ComicSeries> { }

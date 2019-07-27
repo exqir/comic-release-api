@@ -1,7 +1,7 @@
 import * as supertest from 'supertest'
 import { initializeApp } from '../app'
-import { createDependencyMap } from '../lib/dependencies'
 import { createLogger } from '../lib/logger'
+import { none } from 'fp-ts/lib/Option';
 
 const apiPath = '/test/api/'
 
@@ -13,7 +13,10 @@ const app = initializeApp(
     dbPort: 27017,
     dbName: 'test',
   },
-  createDependencyMap({ logger: createLogger('TEST-LOGGER', 'de-DE') }),
+  {
+    logger: createLogger('TEST-LOGGER', 'de-DE'),
+    db: none,
+  },
 )
 
 export function query(query: string) {

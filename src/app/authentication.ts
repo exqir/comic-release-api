@@ -2,7 +2,7 @@ import { Express } from 'express'
 import * as passport from 'passport'
 // import { Strategy } from 'passport-local'
 import * as session from 'express-session'
-import { ApplicationConfig, DependencyInjector } from '../types/app'
+import { ApplicationConfig, ApplicationDependencies } from '../types/app'
 
 // import { UserType } from '../types/mongo'
 
@@ -13,7 +13,7 @@ import { ApplicationConfig, DependencyInjector } from '../types/app'
 
 export const setupAuthentication = (
   config: ApplicationConfig,
-  dependencies: DependencyInjector,
+  dependencies: ApplicationDependencies,
 ) => (app: Express): Express => {
   app.use(
     session({

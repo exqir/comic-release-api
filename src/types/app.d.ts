@@ -1,12 +1,4 @@
-import {
-  ComicBookService,
-  ComicSeriesService,
-  CreatorService,
-  PublisherService,
-  PullListService,
-  UserService,
-} from '../services'
-import { MongoClient } from 'mongodb';
+import { Db } from 'mongodb';
 import { Option } from 'fp-ts/lib/Option'
 
 export interface ApplicationConfig {
@@ -17,15 +9,14 @@ export interface ApplicationConfig {
   dbName: string;
 }
 
+export interface ApplicationInit {
+  logger: Logger;
+  db: () => Promise<Option<Db>>;
+}
+
 export interface ApplicationDependencies {
   logger?: Logger;
-  comicBookService: ComicBookService;
-  comicSeriesService: ComicSeriesService;
-  creatorService: CreatorService;
-  publisherService: PublisherService;
-  pullListService: PullListService;
-  userService: UserService;
-  client?: Option<MongoClient>;
+  db?: Option<Db>;
   [name: string]: any;
 }
 
