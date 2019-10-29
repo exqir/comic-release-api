@@ -1,18 +1,10 @@
-import { FilterQuery, Db, MongoError } from 'mongodb'
+import { Db } from 'mongodb'
 import { findOne, findMany, insertOne } from 'mongad'
 import { ComicBook } from '../types/mongo'
 import { Logger } from '../types/app';
+import { logError } from '../lib/logError';
 
 export const collection = 'comicBooks'
-
-export const findOneComicBook = (query: FilterQuery<ComicBook>) => findOne(collection, query)
-export const findManyComicBooks = (query: FilterQuery<ComicBook>) => findMany(collection, query)
-export const insertOneComicBook = (comicBook: ComicBook) => insertOne(collection, comicBook)
-
-const logError = (logger: Logger) => (err: MongoError): null => {
-  logger.error(err.message)
-  return null
-}
 
 /**
  * TODO: Abstracting this seems to crash TypeScripts

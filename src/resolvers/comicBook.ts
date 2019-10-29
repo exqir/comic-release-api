@@ -1,8 +1,8 @@
 import { ComicBook } from '../types/mongo'
 import { GraphQLResolver } from '../types/graphQL'
-import { getOneComicBook } from '../models/comicBook'
 import { getOnePublisher } from '../models/publisher'
 import { getOneComicSeries } from '../models/comicSeries'
+import { identity } from 'fp-ts/lib/function'
 
 interface ComicRootQuery {
   getComicBook: GraphQLResolver<ComicBook, { id: string }>;
@@ -16,9 +16,12 @@ interface ComicResolver {
 }
 
 export const ComicRoot: ComicRootQuery = {
-  getComicBook: (_, { id }, { dependencies: { db, logger } }) => db
-    .map(getOneComicBook(logger, id))
-    .toNullable(),
+  getComicBook: (_, { id }, { dataSources }) => dataSources.comicBook
+    .getOne(id)
+    .then(e => e.fold(
+      identity,
+      err => { throw err }
+    ))
 }
 
 export const ComicResolver: ComicResolver = {

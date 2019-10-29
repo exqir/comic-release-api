@@ -25,6 +25,7 @@
   "author": "Malte Sellmer",
   "license": "ISC",
   "dependencies": {
+    "apollo-datasource": "^0.6.3",
     "apollo-server-express": "^2.0.6",
     "bcrypt": "^3.0.0",
     "dotenv": "^6.0.0",
@@ -37,7 +38,8 @@
     "mongoose": "^5.2.13",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "scrape-it": "^5.1.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^2.0.0",

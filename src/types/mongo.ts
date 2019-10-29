@@ -63,6 +63,7 @@ export interface User {
  * Definition of a PullList
  */
 export interface PullList {
+  _id: ObjectID;
   owner: string;
   list: string[];
 }

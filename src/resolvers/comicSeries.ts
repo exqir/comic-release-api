@@ -1,7 +1,8 @@
 import { ComicSeries } from '../types/mongo'
 import { GraphQLResolver } from '../types/graphQL'
 import { getOnePublisher } from '../models/publisher'
-import { getOneComicBook, getManyComicBooks } from '../models/comicBook';
+import { getOneComicSeries } from '../models/comicSeries'
+import { getManyComicBooks } from '../models/comicBook'
 
 interface ComicSeriesRootQuery {
   getComicSeries: GraphQLResolver<ComicSeries, { id: string }>;
@@ -16,8 +17,8 @@ interface ComicSeriesResolver {
 }
 
 export const ComicSeriesRoot: ComicSeriesRootQuery = {
-  getComicSeries: async (_, { id }, { dependencies: { db, logger } }) => db
-    .map(getOneComicBook(logger, id))
+  getComicSeries: (_, { id }, { dependencies: { db, logger } }) => db
+    .map(getOneComicSeries(logger, { _id: id }))
     .toNullable(),
 }
 

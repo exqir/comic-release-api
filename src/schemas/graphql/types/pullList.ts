@@ -2,7 +2,6 @@ import { gql } from 'apollo-server-express'
 
 export const PullList = gql`
   extend type Query {
-    getPullLists: [PullList!]!
     getPullList(owner: String!): PullList
   }
 

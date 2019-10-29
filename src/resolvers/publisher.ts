@@ -18,14 +18,14 @@ export const PublisherRoot: PublisherRootQuery = {
   getPublisher: (_, { name }, { dependencies: { db, logger } }) => db
     .map(getOnePublisher(logger, name))
     .toNullable(),
-  getPublishers: async (_, { names }, { dependencies: { db, logger } }) => db
+  getPublishers: (_, { names }, { dependencies: { db, logger } }) => db
     .map(getManyPublishers(logger, names))
     .toNullable(),
 }
 
 export const PublisherResolver: PublisherResolver = {
   Publisher: {
-    series: async ({ series }, _, { dependencies: { db, logger } }) => db
+    series: ({ series }, _, { dependencies: { db, logger } }) => db
       .map(getManyComicSeries(logger, series))
       .toNullable(),
   },

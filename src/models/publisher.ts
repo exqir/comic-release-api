@@ -1,14 +1,10 @@
-import { Db, MongoError } from 'mongodb'
+import { Db } from 'mongodb'
 import { findOne, findMany } from 'mongad'
 import { Publisher } from '../types/mongo'
 import { Logger } from '../types/app';
+import { logError } from '../lib/logError';
 
 export const collection = 'publishers'
-
-const logError = (logger: Logger) => (err: MongoError): null => {
-  logger.error(err.message)
-  return null
-}
 
 /**
  * TODO: Abstracting this seems to crash TypeScripts
