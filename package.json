@@ -19,7 +19,7 @@
   "author": "Malte Sellmer",
   "license": "ISC",
   "dependencies": {
-    "apollo-server-express": "^1.4.0",
+    "apollo-server-express": "^2.14.2",
     "bcrypt": "^2.0.1",
     "body-parser": "^1.18.3",
     "dateformat": "^2.0.0",
